@@ -1,7 +1,9 @@
 .slideshow {
 	position: relative;
-	width: 100%;
+	margin: 40px;
+	width: 93%;
 	max-height: 500px; /* Adjust height as needed */
+	border-radius: 7px;
 	overflow: hidden;
   }
   
@@ -35,4 +37,38 @@
   
   .arrow:hover {
 	background: rgba(0, 0, 0, 0.8);
+  }  
+
+  .slide-container {
+	position: relative;
+  }
+  
+  .text-overlay {
+	position: absolute;
+	top: 10%;
+	left: 5%;
+	color: green;
+	padding: 20px;
+	border-radius: 8px;
+	max-width: 40%;
+  }
+  
+  .slide-title {
+	font-size: 39px;
+	font-weight: bold;
+	color: black;
+	margin-bottom: 0;
+  }
+  
+  .slide-motto {
+	margin-top:0;
+	margin-left: 15px;
+	margin-bottom: 40px;
+	font-size: 18px;
+	font-weight: bold;
+}
+  
+  .slide-paragraph {
+	font-size: 23px;
+	color: #3b3a39;
   }  
