@@ -23,7 +23,7 @@ function Header() {
           {/* Logo and Title */}
           <div>
             <h2 className="text-lg font-bold">
-              <a href="/" className="text-green-500">GreenBay</a>
+              <a href="/" className="greenbay">GreenBay</a>
             </h2>
             <i><p className="text-sm mt-0">Trusted Second Life Appliances</p></i>
           </div>

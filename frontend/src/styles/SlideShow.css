@@ -1,0 +1,38 @@
+.slideshow {
+	position: relative;
+	width: 100%;
+	max-height: 500px; /* Adjust height as needed */
+	overflow: hidden;
+  }
+  
+  .slide-image {
+	width: 100%;
+	height: auto;
+	display: block;
+  }
+  
+  .arrow {
+	z-index: 10;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background: rgba(0, 0, 0, 0.5); /* Transparent black */
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	cursor: pointer;
+	font-size: 24px;
+	border-radius: 50%;
+  }
+  
+  .arrow.left {
+	left: 20px;
+  }
+  
+  .arrow.right {
+	right: 20px;
+  }
+  
+  .arrow:hover {
+	background: rgba(0, 0, 0, 0.8);
+  }  

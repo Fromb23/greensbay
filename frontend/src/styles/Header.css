@@ -9,11 +9,15 @@
   .left-section {
 	display: flex;
 	flex-direction: column;
+	margin-left: 15px;
   }
   
   /* Categories dropdown inside the left section */
   .categories-container {
 	margin-top: 8px;
+	margin-left: 8px;
+	border: 20px;
+	padding: 0;
   }
   
   /* Right Section */
