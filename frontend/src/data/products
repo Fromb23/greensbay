@@ -1,0 +1,52 @@
+const products = [
+  {
+    id: 1,
+    name: "Product A",
+    image: "/src/assets/product1.jpg",
+    unitsLeft: 5,
+    discountPrice: 29.99,
+    actualPrice: 49.99,
+  },
+  {
+    id: 2,
+    name: "Product B",
+    image: "/src/assets/product2.jpg",
+    unitsLeft: 3,
+    discountPrice: 19.99,
+    actualPrice: 39.99,
+  },
+  {
+    id: 3,
+    name: "Product C",
+    image: "/src/assets/product3.jpg",
+    unitsLeft: 8,
+    discountPrice: 39.99,
+    actualPrice: 59.99,
+  },
+	{
+		id: 4,
+		name: "Product D",
+		image: "/src/assets/product4.jpg",
+		unitsLeft: 4,
+		discountPrice: 39.99,
+		actualPrice: 59.99,
+	},
+	{
+		id: 5,
+		name: "Product E",
+		image: "/src/assets/product5.jpg",
+		unitsLeft: 67,
+		discountPrice: 3.99,
+		actualPrice: 9.99,
+	  },
+	  {
+		id: 6,
+		name: "Product F",
+		image: "/src/assets/product6.jpg",
+		unitsLeft: 10,
+		discountPrice: 57.99,
+		actualPrice: 90.99,
+	  },
+];
+
+export default products;
