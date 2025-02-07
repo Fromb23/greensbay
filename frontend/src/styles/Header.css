@@ -1,0 +1,77 @@
+.header-container {
+	background-color: white;
+	color: #16a34a;
+	padding: 16px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+    
+  /* Left Section */
+  .left-section {
+	display: flex;
+	flex-direction: column;
+  }
+  
+  /* Categories dropdown inside the left section */
+  .categories-container {
+	margin-top: 8px;
+  }
+  
+  /* Right Section */
+  .right-section {
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+  }
+  
+  /* Top-right (Search, Account, Help, Cart) */
+  .top-right {
+	display: flex;
+	align-items: center;
+	margin-top: 0;
+	height: 40px;
+	gap: 10px;
+  }
+  
+  /* Bottom-right (Navigation Buttons) */
+  .bottom-right {
+	display: flex;
+	gap: 10px;
+	margin-top: 60px;
+  }
+
+  .dropdown {
+	position: relative;
+  }
+  
+  .dropdown-menu {
+	position: absolute;
+	left: 0;
+	margin-top: 8px;
+	width: 160px;
+	background-color: white;
+	border: 1px solid #e5e7eb;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	border-radius: 6px;
+	display: none;
+  }
+  
+  .dropdown-menu ul {
+	padding: 8px 0;
+	color: black;
+  }
+  
+  .dropdown-menu li {
+	padding: 8px 16px;
+	cursor: pointer;
+	color: black;
+  }
+  
+  .dropdown-menu li:hover {
+	background-color: #f3f4f6;
+  }
+  
+  /* Show dropdown on click */
+  .dropdown.open .dropdown-menu {
+	display: block;
+  }
+  
