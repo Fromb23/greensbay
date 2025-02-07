@@ -1,7 +1,7 @@
 .slideshow {
 	position: relative;
-	margin: 40px;
-	width: 93%;
+	margin: 20px;
+	width: 96%;
 	max-height: 500px; /* Adjust height as needed */
 	border-radius: 7px;
 	overflow: hidden;
@@ -46,11 +46,12 @@
   .text-overlay {
 	position: absolute;
 	top: 10%;
-	left: 5%;
+	left: 3%;
 	color: green;
-	padding: 20px;
+	padding: 10px;
 	border-radius: 8px;
 	max-width: 40%;
+	background-color: white;
   }
   
   .slide-title {
@@ -69,6 +70,6 @@
 }
   
   .slide-paragraph {
-	font-size: 23px;
+	font-size: 17px;
 	color: #3b3a39;
   }  

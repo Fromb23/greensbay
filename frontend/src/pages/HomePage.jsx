@@ -3,30 +3,39 @@ import Footer from "../components/Footer";
 import Slideshow from "../components/SlideShow";
 import products from "/src/data/products";
 import ProductCard from "../components/ProductCard";
+import FilterSidebar from "../components/FilterSidebar";
 import "../styles/HomePage.css";
 
 const Homepage = () => {
+  return (
+    <div className="flex flex-col min-h-screen">
+      {/* Header */}
+      <Header />
 
-	return (
-		<div className="flex flex-col min-h-screen">
-			<Header />
-			<Slideshow />
+      {/* Main Content Wrapper (Flexbox) */}
+      <div className="flex flex-grow">
+        {/* Sidebar (Left) */}
+        <FilterSidebar className="filter-sidebar" />
 
-			<div className="product-grid">
-				{products.map((product) => (
-					<ProductCard key={product.id} product={product} />
-					))}
-			</div>
+        {/* Right Content: Slideshow + Products */}
+        <div className="main-content">
+          <Slideshow />
 
-			<div className="flex-grow">
-				<h1 className="text-red-500">Welcome to My Vite App</h1>
-				<p>This is the homepage of your React Vite app.</p>
-				</div>
+          {/* Product Grid */}
+          <div className="product-grid">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
 
-			<Footer />
-	  </div>
-	);
-  };
-  
-  export default Homepage;
-  
+          {/* Extra Content */}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
+};
+
+export default Homepage;

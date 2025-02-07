@@ -1,0 +1,44 @@
+.filter-sidebar {
+	width: 250px;
+	height: 100vh; /* Full height */
+	overflow-y: auto;
+	background-color: #f8f8f8;
+	padding: 20px;
+	border-right: 1px solid #ddd;
+  }
+  
+  .filter-section {
+	margin-bottom: 20px;
+  }
+  
+  h3 {
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 10px;
+  }
+  
+  ul {
+	list-style: none;
+	padding: 0;
+  }
+  
+  li {
+	font-size: 14px;
+	margin-bottom: 5px;
+	cursor: pointer;
+  }
+  
+  input[type="number"] {
+	width: 40%;
+	padding: 5px;
+	margin-right: 5px;
+  }
+  
+  .apply-button {
+	margin-top: 10px;
+	padding: 5px 10px;
+	background-color: #ff6f61;
+	color: white;
+	border: none;
+	cursor: pointer;
+  }  

@@ -1,6 +1,33 @@
-.product-grid {
+/* Main Container (Sidebar + Main Content) */
+.flex-grow {
+	display: flex;
+  }
+  
+/* Sidebar (Left) */
+.filter-sidebar {
+	width: 22%; /* Sidebar takes 25% of the page */
+	background-color: #f8f8f8;
+	padding: 20px;
+	margin-top: 60px;
+	border-right: 1px solid #ddd;
+	height: 100vh; /* Full viewport height */
+	overflow-y: auto; /* Enable vertical scrolling if needed */
+	overflow-x: hidden; /* Prevent horizontal scroll */
+	display: flex;
+	flex-direction: column;
+  }
+  
+  /* Main Content (Right) */
+  .main-content {
+	flex-grow: 1; /* Take remaining space */
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+  }
+  
+  .product-grid {
 	display: grid;
-	grid-template-columns: repeat(5, 1fr);
+	grid-template-columns: repeat(4, 1fr);
 	gap: 6px;
 	padding: 20px;
 }
