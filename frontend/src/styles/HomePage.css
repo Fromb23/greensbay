@@ -8,13 +8,13 @@
 	width: 22%; /* Sidebar takes 25% of the page */
 	background-color: #f8f8f8;
 	padding: 20px;
-	margin-top: 60px;
-	border-right: 1px solid #ddd;
+	margin-top: 45px;
+	border-right: 10px;
 	height: 100vh; /* Full viewport height */
 	overflow-y: auto; /* Enable vertical scrolling if needed */
-	overflow-x: hidden; /* Prevent horizontal scroll */
 	display: flex;
 	flex-direction: column;
+	border-radius: 6px;
   }
   
   /* Main Content (Right) */
@@ -26,8 +26,10 @@
   }
   
   .product-grid {
+	border-top:9px;
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	gap: 6px;
 	padding: 20px;
+	border-radius: 6px;
 }
