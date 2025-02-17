@@ -9,16 +9,15 @@ import "../styles/HomePage.css";
 const Homepage = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header */}
       <Header />
 
       {/* Main Content Wrapper (Flexbox) */}
       <div className="flex flex-grow">
-        {/* Sidebar (Left) */}
-        <FilterSidebar className="filter-sidebar" />
+        <div className="hidden md:block">
+          <FilterSidebar className="filter-sidebar" />
+        </div>
 
-        {/* Right Content: Slideshow + Products */}
-        <div className="main-content">
+        <div className="main-content flex-grow">
           <Slideshow />
 
           {/* Product Grid */}
@@ -28,11 +27,9 @@ const Homepage = () => {
             ))}
           </div>
 
-          {/* Extra Content */}
         </div>
       </div>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

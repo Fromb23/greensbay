@@ -131,7 +131,7 @@ const Header = () => {
           />
 
           {/* Navigation Links */}
-          <nav className="flex space-x-6">
+          <nav className="flex space-x-6 items-center">
             <a href="#" className="text-gray-700 hover:text-green-500">Account</a>
             <a href="#" className="text-gray-700 hover:text-green-500">Help</a>
             <a href="#" className="text-gray-700 hover:text-green-500">Cart</a>
