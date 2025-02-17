@@ -1,8 +1,15 @@
+import product1 from "/src/assets/product1.jpg";
+import product2 from "/src/assets/product2.jpg";
+import product3 from "/src/assets/product3.jpg";
+import product4 from "/src/assets/product4.jpg";
+import product5 from "/src/assets/product5.jpg";
+import product6 from "/src/assets/product6.jpg";
+
 const products = [
   {
     id: 1,
     name: "Product A",
-    image: "/src/assets/product1.jpg",
+    image: product1,
     unitsLeft: 5,
     discountPrice: 29.99,
     actualPrice: 49.99,
@@ -10,7 +17,7 @@ const products = [
   {
     id: 2,
     name: "Product B",
-    image: "/src/assets/product2.jpg",
+    image: product2,
     unitsLeft: 3,
     discountPrice: 19.99,
     actualPrice: 39.99,
@@ -18,7 +25,7 @@ const products = [
   {
     id: 3,
     name: "Product C",
-    image: "/src/assets/product3.jpg",
+    image: product3,
     unitsLeft: 8,
     discountPrice: 39.99,
     actualPrice: 59.99,
@@ -26,7 +33,7 @@ const products = [
 	{
 		id: 4,
 		name: "Product D",
-		image: "/src/assets/product4.jpg",
+		image: product4,
 		unitsLeft: 4,
 		discountPrice: 39.99,
 		actualPrice: 59.99,
@@ -34,7 +41,7 @@ const products = [
 	{
 		id: 5,
 		name: "Product E",
-		image: "/src/assets/product5.jpg",
+		image: product5,
 		unitsLeft: 67,
 		discountPrice: 3.99,
 		actualPrice: 9.99,
@@ -42,7 +49,7 @@ const products = [
 	  {
 		id: 6,
 		name: "Product F",
-		image: "/src/assets/product6.jpg",
+		image: product6,
 		unitsLeft: 10,
 		discountPrice: 57.99,
 		actualPrice: 90.99,
