@@ -60,7 +60,7 @@ p {
   margin-bottom: 12px;
 }
 
-/* Button styles */
+/* Button styles
 button {
   border-radius: 8px;
   color: black;
@@ -69,8 +69,8 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: white;
-  cursor: pointer;
+  /* background-color: white; */
+  /* cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
@@ -80,7 +80,7 @@ button:hover {
 button:active {
   transform: scale(0.95);
   transition: transform 0.1s ease-in-out;
-}
+}  */
 
 
 /* Responsive design */
@@ -112,7 +112,7 @@ button:active {
   }
 
   body {
-    background-color: #3a1dcf; /* Slightly darker background for tablets */
+    background-color: white; /* Slightly darker background for tablets */
   }
 }
 
@@ -135,20 +135,20 @@ button:active {
   }
 
   body {
-    background-color: #2a12bf; /* Even darker background for phones */
+    background-color: white; /* Even darker background for phones */
   }
 }
 
 /* Light mode */
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: white;
     background-color: #ffffff;
   }
 
   body {
     background-color: #ffffff;
-    color: #213547;
+    color: white;
   }
 
   a:hover {
