@@ -2,7 +2,7 @@ import React from 'react';
 
 const DeliveryAddress = () => {
   return (
-    <div className="p-4 w-full md:w-1/3 border border-gray-200 rounded-md">
+    <div className="p-4 md:w-1/3 border border-gray-200 rounded-md">
       <h2 className="text-lg font-semibold mb-4">Delivery &amp; Returns</h2>
 
       {/* Express Delivery */}

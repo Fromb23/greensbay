@@ -11,13 +11,13 @@ const ProductDetail = () => {
   if (!product) return <div className="text-center py-8 text-xl">Product not found</div>;
 
   return (
-    <div className="py-6 px-4 md:px-8 lg:px-16">
-      <div className="flex flex-col md:flex-row justify-between items-start gap-12">
-        <div className="flex w-full md:w-1/2">
+    <div className="md:ml-35 py-6 px-3 md:px-8 lg:px-16">
+      <div className="flex flex-col md:flex-row justify-between items-start ">
+        <div className="flex mb-3 w-full md:w-1/2">
           <ProductDescription product={product} />
         </div>
 
-        <div className=" flex justify-start w-full md:w-1/2">
+        <div className=" flex justify-start md:w-1/2">
           <DeliveryAddress product={product} />
         </div>
       </div>

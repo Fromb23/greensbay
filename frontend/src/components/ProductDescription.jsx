@@ -8,9 +8,9 @@ const ProductDescription = ({ product }) => {
   };
 
   return (
-    <div className="p-4 w-full border border-gray-200 rounded-md bg-blue-200 mx-20">
+    <div className="p-4 w-full border border-gray-200 rounded-md bg-blue-200 md:mx-2">
       {/* Product Image and Details */}
-      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
+      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-9">
         {/* Product Image */}
         <div className="w-full md:w-1/2">
           <div className="relative">
