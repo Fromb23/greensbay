@@ -21,7 +21,7 @@ function ProductCard({ product }) {
           </span>
         </p>
       </a>
-      <button className="productcard-button">
+      <button className="productcard-button rounded-md">
         Add to Cart
       </button>
     </div>
