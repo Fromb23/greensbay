@@ -1,6 +1,8 @@
-import React from "react";
+import React, { use } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CartSummary = ({ cartItems }) => {
+  const navigate = useNavigate();
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + (Number(item.price) * item.quantity || 0),
     0
@@ -23,7 +25,8 @@ const CartSummary = ({ cartItems }) => {
           <p className="text-lg font-semibold">
             Subtotal: KSh {totalPrice.toLocaleString()}
           </p>
-          <button className="bg-orange-500 text-white px-4 py-2 rounded w-full mt-4">
+          <button className="cursor-pointer bg-orange-500 text-white px-4 py-2 rounded w-full mt-4"
+            onClick={() => navigate("/checkout/summary/")}>
             Checkout
           </button>
         </>
