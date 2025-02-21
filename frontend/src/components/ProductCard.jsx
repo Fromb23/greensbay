@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { addToCart } from "../redux/slices/cartSlice";
 
-function ProductCard({ product, addToCart }) {
-  const [isAdded, setIsAdded] = useState(false);
+function ProductCard({ product }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Check if the product is already in the cart
+  const cartItems = useSelector((state) => state.cart.items);
+  const isAdded = cartItems.some((item) => item.id === product.id);
 
   const handleAddToCart = () => {
-    addToCart(product);
-    setIsAdded(true);
+    dispatch(addToCart(product));
     toast.success("Added to Cart");
-
-    // Navigate to cart after adding the product
-    setTimeout(() => {
-      navigate("/cart");
-    }, 500);
   };
 
   return (

@@ -70,7 +70,7 @@ const NavigationLinks = ({ isMobile = false }) => {
   );
 };
 
-const Header = () => {
+const Header = ({ cartItemCount }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const dropdownRef = useRef(null);
 
@@ -125,8 +125,12 @@ const Header = () => {
 
         {/* Cart and Account Icons (Visible only on small screens) */}
         <div className="md:hidden flex items-center space-x-4">
-          <Dropdown
-            label={
+          {/* Cart Icon with Badge */}
+          <div className="relative">
+            <button
+              onClick={() => toggleDropdown('cart')}
+              className="text-gray-700 hover:text-green-500 focus:outline-none"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -141,13 +145,16 @@ const Header = () => {
                   d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
-            }
-            items={['View Cart', 'Checkout']}
-            isOpen={activeDropdown === 'cart'}
-            onToggle={() => toggleDropdown('cart')}
-            position="right"
-          />
+              {/* Badge */}
+              {cartItemCount > 0 && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 transform translate-x-1/2 -translate-y-1/2">
+                  {cartItemCount}
+                </span>
+              )}
+            </button>
+          </div>
 
+          {/* Account Icon */}
           <Dropdown
             label={
               <svg
@@ -190,13 +197,34 @@ const Header = () => {
               onToggle={() => toggleDropdown('help')}
               position="right"
             />
-            <Dropdown
-              label="Cart"
-              items={['View Cart', 'Checkout']}
-              isOpen={activeDropdown === 'cart'}
-              onToggle={() => toggleDropdown('cart')}
-              position="right"
-            />
+            {/* Cart Icon with Badge */}
+            <div className="relative">
+              <button
+                onClick={() => toggleDropdown('cart')}
+                className="text-gray-700 hover:text-green-500 focus:outline-none"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                {/* Badge */}
+                {cartItemCount > 0 && (
+                  <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 transform translate-x-1/2 -translate-y-1/2">
+                    {cartItemCount}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>
