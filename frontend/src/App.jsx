@@ -9,6 +9,7 @@ import ProductDetail from './pages/ProductDetail';
 import CartPage from './pages/Cart';
 import Login from './pages/UserLogin';
 import Checkout from './pages/Checkout';
+import FinalPayment from './pages/FinalPayment';
 import SignupForm from './components/TempHeader';
 import PageTitleUpdater from './components/PageTitleUpdater';
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/auth/login/" element={<Login />} />
           <Route path="/cart/" element={<CartPage />} />
           <Route path="/checkout/summary" element={<Checkout />} />
+          <Route path="/checkout/payment" element={<FinalPayment />} />
         </Routes>
       </Router>
     </Provider>

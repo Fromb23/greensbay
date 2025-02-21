@@ -60,12 +60,19 @@ const SearchBar = ({ isMobile = false }) => {
 
 // Reusable Navigation Links Component
 const NavigationLinks = ({ isMobile = false }) => {
-  const links = ['Home', 'Buy', 'Sell', 'About Us', 'Contact Us', 'Calculator'];
+  const links = [
+    { name: "Home", path: "/" },
+    { name: "Buy", path: "/buy" },
+    { name: "Sell", path: "/sell" },
+    { name: "About Us", path: "/about" },
+    { name: "Contact Us", path: "/contact" },
+    { name: "Calculator", path: "/calculator" }
+  ];
   return (
     <nav className={`flex ${isMobile ? 'flex-col' : 'space-x-6'} items-center`}>
       {links.map((link, index) => (
-        <a key={index} href="#" className="text-gray-700 hover:text-green-500">
-          {link}
+        <a key={index} href={link.path} className="text-gray-700 hover:text-green-500">
+          {link.name}
         </a>
       ))}
     </nav>
@@ -123,7 +130,10 @@ const Header = () => {
         </div>
 
         {/* Logo (Visible on all screens) */}
-        <div className="text-lg font-bold text-green-700">GreenBay</div>
+        <div className="cursor-pointer text-lg font-bold text-green-700"
+          onClick={() => window.location.href = '/'}
+        >
+          GreenBay</div>
 
         {/* Cart and Account Icons (Visible only on small screens) */}
         <div className="md:hidden flex items-center space-x-4">

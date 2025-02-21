@@ -46,7 +46,7 @@ const OrderSummary = () => {
         </div>
       </div>
 
-      <button className="w-full mt-6 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+      <button className="w-full cursor-pointer mt-6 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
         Confirm order
       </button>
 
