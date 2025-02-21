@@ -1,10 +1,17 @@
-import React, { useState } from "react";
-import { HelpCircle } from "lucide-react"; // Icon for help
+import React, { useState, useEffect } from "react";
+import { HelpCircle } from "lucide-react";
 
-const FinalPay = ({ totalAmount, previousPayment = "M-PESA XXXX-2334" }) => {
+const FinalPay = ({ previousPayment = "M-PESA XXXX-2334" }) => {
   const [selectedPayment, setSelectedPayment] = useState("previous");
   const [mobileOption, setMobileOption] = useState("");
   const [cardDetails, setCardDetails] = useState({ number: "", expiry: "", cvv: "" });
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  useEffect(() => {
+    // Retrieve stored values
+    const storedTotal = localStorage.getItem("totalAmount");
+    setTotalAmount(storedTotal ? parseFloat(storedTotal) : 0);
+  }, []);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
@@ -13,7 +20,7 @@ const FinalPay = ({ totalAmount, previousPayment = "M-PESA XXXX-2334" }) => {
         <h2 className="text-xl font-semibold mb-4">ORDER SUMMARY</h2>
         <div className="flex justify-between items-center mb-6 border p-3 rounded-lg bg-gray-50">
           <p className="text-gray-600">TOTAL TO PAY</p>
-          <p className="text-gray-800 font-semibold">{totalAmount}</p>
+          <p className="text-gray-800 font-semibold">KSh {totalAmount.toLocaleString()}</p>
         </div>
 
         {/* PREVIOUSLY USED PAYMENT METHODS */}
@@ -47,7 +54,7 @@ const FinalPay = ({ totalAmount, previousPayment = "M-PESA XXXX-2334" }) => {
               />
               <p className="text-gray-800">Mobile Money</p>
             </label>
-            
+
             {selectedPayment === "mobile" && (
               <div className="mt-2 space-y-2">
                 <select
@@ -109,10 +116,11 @@ const FinalPay = ({ totalAmount, previousPayment = "M-PESA XXXX-2334" }) => {
           </div>
         </div>
 
-        {/* PAY NOW BUTTON & HELP ICON */}
+        {/* PAY NOW BUTTON */}
         <div className="flex justify-between items-center">
-          <button className="w-3/4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-            PAY NOW: {totalAmount}
+          <button className="cursor-pointer w-3/4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-transform duration-200 active:scale-90"
+            onClick={() => alert("Payment successful!")}>
+            PAY NOW: KSh {totalAmount.toLocaleString()}
           </button>
           <HelpCircle className="w-8 h-8 text-gray-500 cursor-pointer" />
         </div>
