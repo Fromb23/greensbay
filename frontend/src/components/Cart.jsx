@@ -1,6 +1,9 @@
 import React from "react";
 
 const Cart = ({ cartItems, updateQuantity, removeFromCart }) => {
+  // Debug: Log cartItems to inspect its structure
+  console.log("cartItems:", cartItems);
+
   return (
     <div className="p-4 rounded-lg shadow-md bg-white mt-3">
       {/* Hide "Cart (0)" if cart is empty */}
@@ -19,38 +22,64 @@ const Cart = ({ cartItems, updateQuantity, removeFromCart }) => {
           </button>
         </div>
       ) : (
-        cartItems.map((item) => (
-          <div
-            key={item.id}
-            className="flex justify-between items-center p-3 border-b"
-          >
-            <div>
-              <p className="font-semibold">{item.name}</p>
-              <p className="text-gray-500">KSh {item.price.toLocaleString()}</p>
+        <div className="space-y-4">
+          {cartItems.map((item) => (
+            <div
+              key={item.id}
+              className="flex flex-col sm:flex-row items-start sm:items-center p-3 border-b gap-4"
+            >
+              {/* Product Image */}
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-16 h-16 object-cover rounded-lg"
+              />
+
+              {/* Product Details */}
+              <div className="flex-1">
+                <p className="font-semibold">{item.name}</p>
+                <p className="text-gray-500">Seller: {item.seller}</p>
+                <p className="text-gray-500">Volume: {item.volume}</p>
+                <p className="text-green-500">In Stock</p>
+                <p className="text-gray-500">{item.deliveryOption}</p>
+              </div>
+
+              {/* Price and Discount */}
+              <div className="flex flex-col items-end">
+                <p className="font-semibold">
+                  KSh {item.discountPrice?.toLocaleString() ?? "0"}
+                </p>
+                <p className="text-gray-500 line-through">
+                  KSh {item.originalPrice?.toLocaleString() ?? "0"}
+                </p>
+                <p className="text-red-500">-{item.discount ?? "0"}%</p>
+              </div>
+
+              {/* Quantity Controls & Remove Button */}
+              <div className="flex items-center gap-2">
+                <button
+                  className="px-2 bg-gray-200 rounded"
+                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                >
+                  -
+                </button>
+                <span className="mx-2">{item.quantity}</span>
+                <button
+                  className="px-2 bg-gray-200 rounded"
+                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                >
+                  +
+                </button>
+                <button
+                  className="ml-4 text-red-500"
+                  onClick={() => removeFromCart(item.id)}
+                >
+                  Remove
+                </button>
+              </div>
             </div>
-            <div className="flex items-center">
-              <button
-                className="px-2 bg-gray-200 rounded"
-                onClick={() => updateQuantity(item.id, item.quantity - 1)}
-              >
-                -
-              </button>
-              <span className="mx-2">{item.quantity}</span>
-              <button
-                className="px-2 bg-gray-200 rounded"
-                onClick={() => updateQuantity(item.id, item.quantity + 1)}
-              >
-                +
-              </button>
-              <button
-                className="ml-4 text-red-500"
-                onClick={() => removeFromCart(item.id)}
-              >
-                Remove
-              </button>
-            </div>
-          </div>
-        ))
+          ))}
+        </div>
       )}
     </div>
   );

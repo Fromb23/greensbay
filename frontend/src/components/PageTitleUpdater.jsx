@@ -8,8 +8,10 @@ const PageTitleUpdater = () => {
     const pageTitles = {
       "/": "Home - My Shop",
       "/cart": "Your Shopping Cart",
+      "/product/id": "Product Details",
       "/wishlist": "Your Wishlist",
-      "/checkout": "Checkout - My Shop",
+      "/checkout/summary": "Checkout - Summary",
+      "/auth/login": "Login to your account",
     };
 
     document.title = pageTitles[location.pathname] || "My Shop";
