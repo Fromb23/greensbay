@@ -13,7 +13,6 @@ const Homepage = ({ addToCart }) => {
     <div className="flex flex-col min-h-screen">
       <Header />
 
-      {/* Main Content Wrapper */}
       <div className="flex flex-col md:flex-row flex-grow">
         {/* Sidebar (Hidden on small screens) */}
         <div className="hidden md:block  bg-gray-100 0 m-3 rounded-md">
@@ -28,6 +27,7 @@ const Homepage = ({ addToCart }) => {
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-3 md:p-5 rounded-md border-t border-gray-300">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} addToCart={addToCart} />
+             
             ))}
           </div>
         </div>

@@ -13,7 +13,13 @@ const cartSlice = createSlice({
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        state.items.push({ ...action.payload, quantity: 1 });
+        state.items.push({ 
+          ...action.payload, 
+          quantity: 1,
+          price: parseInt(action.payload.discountPrice, 10), 
+          discountPrice: Math.round(action.payload.discountPrice),
+          actualPrice: Math.round(action.payload.actualPrice),
+        });
       }
     },
     removeFromCart: (state, action) => {
@@ -29,6 +35,6 @@ const cartSlice = createSlice({
   },
 });
 
-//Make sure this is correctly exported
+// Make sure this is correctly exported
 export const { addToCart, removeFromCart, updateQuantity } = cartSlice.actions;
 export default cartSlice.reducer;

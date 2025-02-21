@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import CartBadge from './CartBadge'; // Import the CartBadge component
+import CartBadge from './CartBadge';
 
 // Reusable Dropdown Component
 const Dropdown = ({ label, items, isOpen, onToggle, position = 'left' }) => {
@@ -163,7 +163,7 @@ const Header = () => {
           <div className="flex items-center space-x-6">
             <Dropdown
               label="Account"
-              items={['Profile', 'Settings', 'Logout']}
+              items={['Profile', 'Settings', 'Inbox', 'Logout']}
               isOpen={activeDropdown === 'account'}
               onToggle={() => toggleDropdown('account')}
               position="right"
