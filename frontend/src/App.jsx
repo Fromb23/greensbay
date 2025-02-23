@@ -12,6 +12,10 @@ import Checkout from './pages/Checkout';
 import FinalPayment from './pages/FinalPayment';
 import SignupForm from './components/TempHeader';
 import PageTitleUpdater from './components/PageTitleUpdater';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
+import CreateAdmin from './pages/CreateAdmin';
+import ProtectedRoute from './components/ProtectedRoutes';
 
 function App() {
   return (
@@ -21,6 +25,8 @@ function App() {
         <PageTitleUpdater />
         <Routes>
           <Route path="*" element={<h1>404 Not Found</h1>} />
+          <Route path="/auth/admin/register" element={<CreateAdmin />} />
+          <Route path="/auth/admin/login" element={<AdminLogin />} />
           <Route path="/" element={<Homepage />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/test" element={<SignupForm />} />
@@ -28,6 +34,9 @@ function App() {
           <Route path="/cart/" element={<CartPage />} />
           <Route path="/checkout/summary" element={<Checkout />} />
           <Route path="/checkout/payment" element={<FinalPayment />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/auth/admin/dashboard" element={<AdminDashboard />} />
+          </Route>
         </Routes>
       </Router>
     </Provider>
