@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/admin", adminRoutes);
-app.use("/api/product", productRoutes);
+app.use("/api/products", productRoutes);
 
 app.get("/test-db", async (req, res) => {
   try {
