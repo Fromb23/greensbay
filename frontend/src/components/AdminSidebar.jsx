@@ -1,3 +1,5 @@
+import CreateProduct from "./createProduct";
+
 const AdminSidebar = ({ setActiveComponent }) => {
 	const menuItems = [
 	  { name: "Dashboard", component: "Dashboard" },

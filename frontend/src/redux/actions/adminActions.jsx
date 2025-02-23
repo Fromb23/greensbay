@@ -1,8 +1,8 @@
-import axiosInstance from "../../api/axiosInstance";
+import adminAxios from "../../api/adminAxios";
 
 export const createAdmin = async (adminData) => {
   try {
-    const response = await axiosInstance.post("/create-admin", adminData);
+    const response = await adminAxios.post("/create-admin", adminData);
     return response.data;
   } catch (error) {
     console.error("Error creating admin:", error);
@@ -12,7 +12,7 @@ export const createAdmin = async (adminData) => {
 
 export const signInAdmin = async (signInData) => {
   try {
-	const response = await axiosInstance.post("/login", signInData);
+	const response = await adminAxios.post("/login", signInData);
 	console.log(response.data);
 	return response.data;
   } catch (error) {

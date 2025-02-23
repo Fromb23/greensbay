@@ -5,7 +5,7 @@ import ContentArea from "../components/ContentArea";
 import AdminFooter from "../components/AdminFooter";
 
 const AdminDashboard = () => {
-  const [activeComponent, setActiveComponent] = useState("Dashboard"); // Default to Dashboard
+  const [activeComponent, setActiveComponent] = useState("Dashboard");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
