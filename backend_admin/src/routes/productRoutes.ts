@@ -1,29 +1,46 @@
 import express from "express";
 import { Request, Response } from "express";
-import pool from "../config/db";
+import { PrismaClient } from "@prisma/client";
 
 const router = express.Router();
+const prisma = new PrismaClient();
 
 // Fetch all products
 router.get("/fetch-products", async (req: Request, res: Response) => {
-  const [products] = await pool.execute("SELECT * FROM products");
-  res.json(products);
+  try {
+    const products = await prisma.products.findMany();
+    res.json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // Create a product
 router.post("/create-product", async (req: Request, res: Response) => {
-  const { name, image, units_left, stock, discount_price, actual_price, category } = req.body;
-  await pool.execute(
-    "INSERT INTO products (name, image, units_left, stock, discount_price, actual_price, category) VALUES (?, ?, ?, ?, ?, ?, ?)",
-    [name, image, units_left, stock, discount_price, actual_price, category]
-  );
-  res.json({ message: "Product added successfully" });
+  try {
+    const { name, image, units_left, stock, discount_price, actual_price, category } = req.body;
+
+    const product = await prisma.products.create({
+      data: { name, image, units_left, stock, discount_price, actual_price, category },
+    });
+
+    res.json({ message: "Product added successfully", product });
+  } catch (error) {
+    console.error("Error creating product:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // Delete a product
 router.delete("/remove-product/:id", async (req: Request, res: Response) => {
-  await pool.execute("DELETE FROM products WHERE id = ?", [req.params.id]);
-  res.json({ message: "Product deleted successfully" });
+  try {
+    await prisma.products.delete({ where: { id: Number(req.params.id) } });
+    res.json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 export default router;

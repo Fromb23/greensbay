@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express";
-import pool from "../config/db";
+import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 const router = express.Router();
+const prisma = new PrismaClient();
 
 interface Admin {
   id?: number;
@@ -14,7 +15,7 @@ interface Admin {
   created_at?: Date;
 }
 
-// login admin
+// Admin Login
 router.post("/login", async (req: Request, res: Response): Promise<any> => {
   const { email, password } = req.body;
 
@@ -23,32 +24,30 @@ router.post("/login", async (req: Request, res: Response): Promise<any> => {
   }
 
   try {
-    // Query the admin user by email
-    const [admins]: any = await pool.execute("SELECT * FROM admins WHERE email = ?", [email]);
+    // Find the admin in the database
+    const admin = await prisma.admins.findUnique({ where: { email } });
 
-    // If no admin found, return invalid credentials
-    if (!admins || admins.length === 0) {
+    if (!admin) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    const admin = admins[0];
-
-    // Check password hash
+    // Validate password
     const isPasswordValid = await bcrypt.compare(password, admin.password);
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
+
+    // Generate JWT Token
     const token = jwt.sign({ id: admin.id }, process.env.JWT_SECRET as string, { expiresIn: "1h" });
 
-    // Successful login response (token-based authentication should be added here)
-    return res.status(200).json({ message: "Login successful", adminId: admin.id, token: token, username: admin.username });
+    return res.status(200).json({ message: "Login successful", adminId: admin.id, token, username: admin.username });
   } catch (error) {
     console.error("Database error:", error);
     return res.status(500).json({ error: "Internal Server Error", details: (error as Error).message });
   }
 });
 
-// Create Admin Route
+// Create Admin
 router.post("/create-admin", async (req: Request, res: Response): Promise<any> => {
   const { username, email, password, role } = req.body;
 
@@ -57,19 +56,23 @@ router.post("/create-admin", async (req: Request, res: Response): Promise<any> =
   }
 
   try {
-    // Hash Password
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Insert into DB
-    const [result]: any = await pool.execute(
-      "INSERT INTO admins (username, email, password, role) VALUES (?, ?, ?, ?)",
-      [username, email, hashedPassword, role]
-    );
+    // Create Admin
+    const admin = await prisma.admins.create({
+      data: {
+        username,
+        email,
+        password: hashedPassword,
+        role,
+      },
+    });
 
-    res.status(201).json({ message: "Admin created successfully!", adminId: result.insertId });
+    return res.status(201).json({ message: "Admin created successfully!", adminId: admin.id });
   } catch (error) {
     console.error("Database error:", error);
-    res.status(500).json({ error: "Database error", details: (error as Error).message });
+    return res.status(500).json({ error: "Database error", details: (error as Error).message });
   }
 });
 

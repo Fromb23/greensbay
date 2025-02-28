@@ -1,13 +1,14 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import pool from "./config/db";
+import { PrismaClient } from "@prisma/client";
 import adminRoutes from "./routes/adminRoutes";
 import productRoutes from "./routes/productRoutes";
 
 dotenv.config();
 
 const app = express();
+const prisma = new PrismaClient();
 
 app.use(cors());
 app.use(express.json());
@@ -15,10 +16,11 @@ app.use(express.json());
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
 
+// Test DB Connection
 app.get("/test-db", async (req, res) => {
   try {
-    const [rows]: any = await pool.query("SELECT 1 + 1 AS result");
-    res.json({ message: "Database connected!", result: rows[0] });
+    await prisma.$connect(); 
+    res.json({ message: "Database connected successfully!" });
   } catch (err) {
     console.error("Database Error:", err);
     res.status(500).json({ error: "Database connection failed!" });

@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admins {
+  id         Int      @id @default(autoincrement())
+  username   String   @db.VarChar(100)
+  email      String   @unique(map: "email") @db.VarChar(100)
+  password   String   @db.VarChar(255)
+  role       Role     @default(CUSTOMER)
+  created_at DateTime @default(now()) @db.Timestamp(0)
+}
+
+model Products {
+  id             Int         @id @default(autoincrement())
+  name           String      @db.VarChar(255)
+  image          String?     @db.VarChar(500)
+  units_left     Int         @default(0)
+  stock          Int         @default(0)
+  discount_price Decimal?    @db.Decimal(10, 2)
+  actual_price   Decimal     @db.Decimal(10, 2)
+  category       String      @db.VarChar(100)
+  created_at     DateTime    @default(now()) @db.Timestamp(0)
+  OrderItem      OrderItem[]
+}
+
+model Users {
+  id         Int      @id @default(autoincrement())
+  firstname  String   @db.VarChar(100)
+  lastname   String   @db.VarChar(100)
+  role       Role     @default(CUSTOMER)
+  email      String   @unique(map: "email") @db.VarChar(100)
+  password   String   @db.VarChar(255)
+  created_at DateTime @default(now()) @db.Timestamp(0)
+  orders     Order[]
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  userId      Int
+  user        Users       @relation(fields: [userId], references: [id])
+  orderItems  OrderItem[]
+  totalAmount Int
+  createdAt   DateTime    @default(now())
+  status      OrderStatus @default(PENDING)
+}
+
+model OrderItem {
+  id          Int      @id @default(autoincrement())
+  orderId     Int
+  order       Order    @relation(fields: [orderId], references: [id])
+  productId   Int
+  product     Products @relation(fields: [productId], references: [id])
+  quantity    Int
+  price       Int
+  totalAmount Int
+  createdAt   DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+  CUSTOMER
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+}
