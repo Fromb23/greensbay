@@ -12,7 +12,7 @@ model Admins {
   username   String   @db.VarChar(100)
   email      String   @unique(map: "email") @db.VarChar(100)
   password   String   @db.VarChar(255)
-  role       Role     @default(CUSTOMER)
+  role       Role     @default(ADMIN)
   created_at DateTime @default(now()) @db.Timestamp(0)
 }
 
@@ -30,24 +30,27 @@ model Products {
 }
 
 model Users {
-  id         Int      @id @default(autoincrement())
-  firstname  String   @db.VarChar(100)
-  lastname   String   @db.VarChar(100)
-  role       Role     @default(CUSTOMER)
-  email      String   @unique(map: "email") @db.VarChar(100)
-  password   String   @db.VarChar(255)
-  created_at DateTime @default(now()) @db.Timestamp(0)
-  orders     Order[]
+  id              Int               @id @default(autoincrement())
+  firstname       String            @db.VarChar(100)
+  lastname        String            @db.VarChar(100)
+  role            Role              @default(CUSTOMER)
+  email           String            @unique(map: "email") @db.VarChar(100)
+  password        String            @db.VarChar(255)
+  created_at      DateTime          @default(now()) @db.Timestamp(0)
+  orders          Order[]
+  DeliveryAddress DeliveryAddress[]
+  CustomerAddress CustomerAddress?
 }
 
 model Order {
-  id          Int         @id @default(autoincrement())
-  userId      Int
-  user        Users       @relation(fields: [userId], references: [id])
-  orderItems  OrderItem[]
-  totalAmount Int
-  createdAt   DateTime    @default(now())
-  status      OrderStatus @default(PENDING)
+  id              Int               @id @default(autoincrement())
+  userId          Int
+  user            Users             @relation(fields: [userId], references: [id])
+  orderItems      OrderItem[]
+  totalAmount     Int
+  createdAt       DateTime          @default(now())
+  status          OrderStatus       @default(PENDING)
+  DeliveryAddress DeliveryAddress[]
 }
 
 model OrderItem {
@@ -60,6 +63,29 @@ model OrderItem {
   price       Int
   totalAmount Int
   createdAt   DateTime @default(now())
+}
+
+model DeliveryAddress {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderId   Int
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  address   String   @db.VarChar(255)
+  city      String   @db.VarChar(100)
+  state     String   @db.VarChar(100)
+  zipCode   String?  @db.VarChar(20)
+  phone     String   @db.VarChar(15)
+  createdAt DateTime @default(now())
+}
+
+model CustomerAddress {
+  id      Int    @id @default(autoincrement())
+  userId  Int    @unique
+  user    Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  address String @db.VarChar(255)
+  city    String @db.VarChar(100)
+  country String @db.VarChar(100)
 }
 
 enum Role {

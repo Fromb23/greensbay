@@ -11,7 +11,6 @@ interface Admin {
   username: string;
   email: string;
   password: string;
-  role: string;
   created_at?: Date;
 }
 
@@ -49,9 +48,9 @@ router.post("/login", async (req: Request, res: Response): Promise<any> => {
 
 // Create Admin
 router.post("/create-admin", async (req: Request, res: Response): Promise<any> => {
-  const { username, email, password, role } = req.body;
+  const { username, email, password} = req.body;
 
-  if (!username || !email || !password || !role) {
+  if (!username || !email || !password) {
     return res.status(400).json({ error: "All fields are required" });
   }
 
@@ -65,7 +64,6 @@ router.post("/create-admin", async (req: Request, res: Response): Promise<any> =
         username,
         email,
         password: hashedPassword,
-        role,
       },
     });
 
