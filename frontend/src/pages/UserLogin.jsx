@@ -1,6 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../redux/actions/userActions";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  }); 
+  const { user, error } = useSelector((state) => state.user);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleChange = (e) => {
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrorMessage("");
+    console.log("Triggered login request", loginData);
+    dispatch(login(loginData));
+  };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    } else if (error) {
+      setErrorMessage(error);
+    }
+  }, [user, error]);
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       {/* Login Container */}
@@ -16,11 +50,16 @@ const Login = () => {
         </p>
 
         {/* Login Form */}
-        <form className="space-y-4">
-          {/* Email / Phone Input */}
+        <form className="space-y-4"
+          onSubmit={handleSubmit}
+        >
+          {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
           <input
-            type="text"
+            type="email"
             placeholder="Email or Phone Number"
+            value={loginData.email}
+            onChange={handleChange}
+            name="email"
             className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
           />
 
@@ -28,6 +67,9 @@ const Login = () => {
           <input
             type="password"
             placeholder="Password"
+            value={loginData.password}
+            onChange={handleChange}
+            name="password"
             className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500"
           />
 

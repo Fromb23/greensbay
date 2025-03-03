@@ -8,6 +8,7 @@ import Homepage from './pages/HomePage';
 import ProductDetail from './pages/ProductDetail';
 import CartPage from './pages/Cart';
 import Login from './pages/UserLogin';
+import UserSignUp from './pages/userSignUp';
 import Checkout from './pages/Checkout';
 import FinalPayment from './pages/FinalPayment';
 import SignupForm from './components/TempHeader';
@@ -31,6 +32,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/test" element={<SignupForm />} />
           <Route path="/auth/login/" element={<Login />} />
+          <Route path="/auth/signup/" element={<UserSignUp />} />
           <Route path="/cart/" element={<CartPage />} />
           <Route path="/checkout/summary" element={<Checkout />} />
           <Route path="/checkout/payment" element={<FinalPayment />} />

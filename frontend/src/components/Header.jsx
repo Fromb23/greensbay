@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CartBadge from './CartBadge';
+import { logout, USER_LOGIN_SUCCESS } from '../redux/slices/userSlice';
 
 // Reusable Dropdown Component
-const Dropdown = ({ label, items, isOpen, onToggle, position = 'left' }) => {
+const Dropdown = ({ onItemClick, label, items, isOpen, onToggle, position = 'left' }) => {
   return (
     <div className="relative">
       <button
@@ -19,7 +21,12 @@ const Dropdown = ({ label, items, isOpen, onToggle, position = 'left' }) => {
           }`}
         >
           {items.map((item, index) => (
-            <a key={index} href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+            <a
+              key={index}
+              href="#"
+              className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              onClick={() => onItemClick && onItemClick(item)}
+            >
               {item}
             </a>
           ))}
@@ -80,6 +87,10 @@ const NavigationLinks = ({ isMobile = false }) => {
 };
 
 const Header = () => {
+  const { userInfo } = useSelector((state) => state.user.userInfo) || {};
+
+  console.log("userInfo in header", userInfo?.firstname);
+  const dispatch = useDispatch();
   const [activeDropdown, setActiveDropdown] = useState(null);
   const dropdownRef = useRef(null);
 
@@ -99,6 +110,13 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('token');
+    window.location.reload();
+  };
 
   return (
     <header className="bg-white shadow-md">
@@ -160,10 +178,11 @@ const Header = () => {
                 />
               </svg>
             }
-            items={['Profile', 'Settings', 'Logout']}
+            items={userInfo ? ['Logout', 'Profile', 'Orders', 'Settings'] : ['Login', 'Signup']}
             isOpen={activeDropdown === 'account'}
             onToggle={() => toggleDropdown('account')}
             position="right"
+            onItemClick={(item) => {if (item === 'Logout') {handleLogout()}}}
           />
         </div>
 
@@ -172,10 +191,11 @@ const Header = () => {
           <SearchBar />
           <div className="flex items-center space-x-6">
             <Dropdown
-              label="Account"
-              items={['Profile', 'Settings', 'Inbox', 'Logout']}
+              label={userInfo ?  `Hi, ${userInfo.firstname}` : 'Account'}
+              items={userInfo ? ['Profile', 'Logout', 'Orders', 'Settings'] : ['Login', 'Signup']}
               isOpen={activeDropdown === 'account'}
               onToggle={() => toggleDropdown('account')}
+              onItemClick={(item) => {if (item === 'Logout') {handleLogout()}}}
               position="right"
             />
             <Dropdown

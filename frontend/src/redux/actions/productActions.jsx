@@ -2,6 +2,7 @@ import productAxios from "../../api/productAxios";
 
 export const fetchProducts = async () => {
   const response = await productAxios.get("/fetch-products");
+  console.log(response.data);
   return response.data;
 };
 

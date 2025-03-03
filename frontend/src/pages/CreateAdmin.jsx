@@ -6,7 +6,6 @@ const CreateAdmin = () => {
     username: "",
     email: "",
     password: "",
-    role: "admin",
   });
 
   const [message, setMessage] = useState("");
@@ -21,7 +20,7 @@ const CreateAdmin = () => {
       const response = await createAdmin(admin);
       setMessage(response.message || "Admin created successfully!");
 	  navigate("/auth/admin/login");
-      setAdmin({ username: "", email: "", password: "", role: "admin" });
+      setAdmin({ username: "", email: "", password: ""});
     } catch (error) {
       setMessage(error.error || "Something went wrong.");
     }

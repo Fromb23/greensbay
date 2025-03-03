@@ -1,5 +1,6 @@
 import React from "react";
 import Products from "./Products";
+import ReportAnalysis from "./ReportAnalysis";
 
 const ContentArea = ({ activeComponent, setActiveComponent }) => {
 	return (
@@ -13,7 +14,7 @@ const ContentArea = ({ activeComponent, setActiveComponent }) => {
 		</button>
   
 		{/* Display the Active Component */}
-		{activeComponent === "Dashboard" && <h1>Dashboard Content</h1>}
+		{activeComponent === "Dashboard" && <ReportAnalysis />}
 		{activeComponent === "Products" && <Products />}
 		{activeComponent === "Orders" && <h1>Orders List</h1>}
 		{activeComponent === "Customers" && <h1>Customers Info</h1>}
