@@ -30,7 +30,7 @@ const Cart = ({ cartItems, updateQuantity, removeFromCart }) => {
             >
               {/* Product Image */}
               <img
-                src={item.image}
+                src={item.image.replace("imgur.com", "i.imgur.com") + ".jpg"}
                 alt={item.name}
                 className="w-16 h-16 object-cover rounded-lg"
               />
@@ -47,12 +47,12 @@ const Cart = ({ cartItems, updateQuantity, removeFromCart }) => {
               {/* Price and Discount */}
               <div className="flex flex-col items-end">
                 <p className="font-semibold">
-                  KSh {item.discountPrice?.toLocaleString() ?? "0"}
+                  KSh {item.discount_price?.toLocaleString() ?? "0"}
                 </p>
                 <p className="text-gray-500 line-through">
-                  KSh {item.originalPrice?.toLocaleString() ?? "0"}
+                  KSh {item.actual_price?.toLocaleString() ?? "0"}
                 </p>
-                <p className="text-red-500">-{item.discount ?? "0"}%</p>
+                <p className="text-red-500">-{Math.round((item.discount_price)/(item.actual_price) * 100) ?? "0"}%</p>
               </div>
 
               {/* Quantity Controls & Remove Button */}

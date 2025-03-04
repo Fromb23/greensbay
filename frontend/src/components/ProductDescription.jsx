@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
 
 const ProductDescription = ({ product }) => {
   const [isEnlarged, setIsEnlarged] = useState(false);
   const dispatch = useDispatch();
+  
+  useEffect(() => {
+    if (!product?.id) return;
+    fetch(`http://localhost:5001/api/products/fetch-product/${product.id}`)
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch product");
+      return response.json();
+    })
+    .catch((error) => console.error("Error fetching product:", error));
+}, [product?.id]);
 
   const toggleEnlarge = () => {
     setIsEnlarged(!isEnlarged);
   };
 
   const handleAddToCart = () => {
-    dispatch(addToCart(product)); // Add product to cart
+    dispatch(addToCart(product));
   };
 
   return (
@@ -20,7 +30,7 @@ const ProductDescription = ({ product }) => {
         <div className="w-full md:w-1/2">
           <div className="relative">
             <img
-              src={product.image}
+              src={product.image.replace("imgur.com", "i.imgur.com") + ".jpg"}
               alt={product.name}
               className={`w-64 object-cover rounded-lg cursor-pointer transition-transform duration-300 ${
                 isEnlarged ? "scale-150" : ""
@@ -42,17 +52,17 @@ const ProductDescription = ({ product }) => {
           <h2 className="text-2xl font-bold mb-2">{product.name}</h2>
 
           <div className="mt-4">
-            <p className="text-lg font-bold">${product.discountPrice}</p>
-            <p className="text-sm line-through text-gray-500">${product.actualPrice}</p>
+            <p className="text-lg font-bold">${product.discount_price}</p>
+            <p className="text-sm line-through text-gray-500">${product.actual_price}</p>
             <p className="text-green-600">
               {Math.round(
-                ((product.actualPrice - product.discountPrice) / product.actualPrice) * 100
+                ((product.actual_price - product.discount_price) / product.actual_price) * 100
               )}
               % off
             </p>
           </div>
 
-          <p className="text-gray-600 mt-2">{product.unitsLeft} units left</p>
+          <p className="text-gray-600 mt-2">{product.units_left} units left</p>
         </div>
       </div>
 

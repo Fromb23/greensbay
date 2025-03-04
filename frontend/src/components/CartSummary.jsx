@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 const CartSummary = ({ cartItems }) => {
   const navigate = useNavigate();
   const totalPrice = cartItems.reduce(
-    (sum, item) => sum + (Number(item.price) * item.quantity || 0),
+    (sum, item) => sum + (Number(item.discount_price) * item.quantity || 0),
     0
   );
-
+  console.log("Cart Items in cart summary:", cartItems);
   return (
     <div className="p-4 rounded-md shadow-md bg-white mt-3">
       <h2 className="text-xl font-bold mb-4">Cart Summary</h2>
@@ -18,7 +18,7 @@ const CartSummary = ({ cartItems }) => {
             {cartItems.map((item) => (
               <li key={item.id} className="flex justify-between border-b py-2">
                 <span>{item.name} (x{item.quantity})</span>
-                <span>KSh {(item.price * item.quantity).toLocaleString()}</span>
+                <span>KSh {(item.discount_price * item.quantity).toLocaleString()}</span>
               </li>
             ))}
           </ul>

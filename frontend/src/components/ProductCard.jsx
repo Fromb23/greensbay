@@ -38,7 +38,7 @@ function ProductCard({ product }) {
       {/* Image Section */}
       <div className="w-full aspect-square bg-gray-100 rounded-lg overflow-hidden">
         <img
-          src={product.image.replace("imgur.com", "i.imgur.com") + ".jpg"}
+          src={product.image ? product.image.replace("imgur.com", "i.imgur.com") + ".jpg" : "noimage.jpg"}
           alt={product.name}
           className="w-full h-full object-cover"
         />

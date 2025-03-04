@@ -5,8 +5,9 @@ const OrderSummary = () => {
   const cartItems = useSelector((state) => state.cart.items);
 
   const subtotal = cartItems?.length
-    ? cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    ? cartItems.reduce((sum, item) => sum + item.discount_price * item.quantity, 0)
     : 0;
+    console.log("subtotal:", subtotal);
 
   const deliveryFees = 871;
   const customsFees = 326;

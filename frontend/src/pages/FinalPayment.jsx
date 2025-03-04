@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import FinalPay from "../components/FinalPayment";
 
 const FinalPayment = () => {
+  const [previousPayment, setPreviousPayment] = useState("");
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
@@ -9,7 +10,7 @@ const FinalPayment = () => {
         <h1 className="text-green-600 text-xl font-bold">GreenPay</h1>
       </header>
 
-	  <FinalPay />
+	  <FinalPay previousPayment={previousPayment} />
     </div>
   );
 };
