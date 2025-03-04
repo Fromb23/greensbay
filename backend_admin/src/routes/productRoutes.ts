@@ -16,6 +16,19 @@ router.get("/fetch-products", async (req: Request, res: Response) => {
   }
 });
 
+// Fetch a single product
+router.get("/fetch-product/:id", async (req: Request, res: Response) => {
+  try {
+    const product = await prisma.products.findUnique({
+      where: { id: Number(req.params.id) },
+    });
+    res.json(product);
+  } catch (error) {
+    console.error("Error fetching product be:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // Create a product
 router.post("/create-product", async (req: Request, res: Response) => {
   try {
