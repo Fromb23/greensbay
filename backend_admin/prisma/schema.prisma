@@ -78,9 +78,19 @@ model products {
   stock          Int         @default(0)
   discount_price Decimal?    @db.Decimal(10, 2)
   actual_price   Decimal     @db.Decimal(10, 2)
-  category       String      @db.VarChar(100)
   created_at     DateTime    @default(now()) @db.Timestamp(0)
+  categoryId     Int?
   orderitem      orderitem[]
+  category       categories? @relation(fields: [categoryId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_category")
+
+  @@index([categoryId], map: "fk_category")
+}
+
+model categories {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  products  products[] // One-to-many relationship with products
 }
 
 model users {
