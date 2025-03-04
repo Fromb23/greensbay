@@ -39,9 +39,7 @@ const initialState = {
 			localStorage.setItem("token", JSON.stringify({
 				token: action.payload.token
 			}));
-			localStorage.setItem("userInfo", JSON.stringify({
-				userInfo: action.payload.user
-			}));
+			localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
 			state.error = null;
 			setTimeout(() => {
 				window.location.reload();

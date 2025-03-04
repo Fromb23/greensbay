@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CartBadge from './CartBadge';
-import { logout, USER_LOGIN_SUCCESS } from '../redux/slices/userSlice';
+import { logout } from '../redux/slices/userSlice';
 
 // Reusable Dropdown Component
 const Dropdown = ({ onItemClick, label, items, isOpen, onToggle, position = 'left' }) => {
@@ -93,7 +93,7 @@ const NavigationLinks = ({ isMobile = false }) => {
 };
 
 const Header = () => {
-  const { userInfo } = useSelector((state) => state.user.userInfo) || {};
+  const { userInfo } = useSelector((state) => state.user) || {};
 
   console.log("userInfo in header", userInfo?.firstname);
   const dispatch = useDispatch();

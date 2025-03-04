@@ -34,10 +34,13 @@ function App() {
           <Route path="/auth/login/" element={<Login />} />
           <Route path="/auth/signup/" element={<UserSignUp />} />
           <Route path="/cart/" element={<CartPage />} />
-          <Route path="/checkout/summary" element={<Checkout />} />
-          <Route path="/checkout/payment" element={<FinalPayment />} />
-          <Route element={<ProtectedRoute />}>
+          
+          <Route element={<ProtectedRoute role="ADMIN" />}>
             <Route path="/auth/admin/dashboard" element={<AdminDashboard />} />
+          </Route>
+          <Route element={<ProtectedRoute role="CUSTOMER" />}>
+            <Route path="/checkout/summary" element={<Checkout />} />
+            <Route path="/checkout/payment" element={<FinalPayment />} />
           </Route>
         </Routes>
       </Router>
