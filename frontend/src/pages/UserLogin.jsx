@@ -29,7 +29,9 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/");
+      const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
+      localStorage.removeItem("redirectAfterLogin");
+      navigate(redirectPath);
     } else if (error) {
       setErrorMessage(error);
     }

@@ -1,13 +1,21 @@
-import React, { use } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const CartSummary = ({ cartItems }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const userInfo = localStorage.getItem("userInfo")
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + (Number(item.discount_price) * item.quantity || 0),
     0
   );
-  console.log("Cart Items in cart summary:", cartItems);
+
+  useEffect(() => {
+    if (!userInfo) {
+      localStorage.setItem("redirectAfterLogin", location.pathname);
+      navigate("/auth/login");
+    }
+  } , [userInfo, navigate, location]);
   return (
     <div className="p-4 rounded-md shadow-md bg-white mt-3">
       <h2 className="text-xl font-bold mb-4">Cart Summary</h2>
