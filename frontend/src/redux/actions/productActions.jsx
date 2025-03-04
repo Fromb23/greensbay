@@ -6,6 +6,12 @@ export const fetchProducts = async () => {
   return response.data;
 };
 
+export const fetchCategories = async () => {
+  const response = await productAxios.get("/fetch-categories");
+  return response.data;
+};
+
+
 export const createProduct = async (productData) => {
   const response = await productAxios.post("/create-product", productData);
   return response.data;
