@@ -21,14 +21,20 @@ const Dropdown = ({ onItemClick, label, items, isOpen, onToggle, position = 'lef
           }`}
         >
           {items.map((item, index) => (
-            <a
+            <button
               key={index}
-              href="#"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-              onClick={() => onItemClick && onItemClick(item)}
+              className={`cursor-pointer block w-full text-left px-4 py-2 hover:bg-gray-100  `}
+              onClick={() => {
+                console.log("Clicked item:", item); 
+                if (onItemClick) {
+                  onItemClick(item); // Ensure function is being called
+                } else {
+                  console.log("onItemClick is undefined");
+                }
+              }}
             >
               {item}
-            </a>
+            </button>
           ))}
         </div>
       )}
@@ -111,12 +117,25 @@ const Header = () => {
     };
   }, []);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    localStorage.removeItem('userInfo');
-    localStorage.removeItem('token');
-    window.location.reload();
+  const handleDropdownClick = (item) => {
+    console.log("Clicked item:", item); 
+    const actions = {
+      Logout: () => {
+        localStorage.removeItem("userInfo");
+        window.location.href = "/auth/login";
+      },
+      Profile: () => window.location.href = "/profile",
+      Orders: () => window.location.href = "/orders",
+      Settings: () => window.location.href = "/settings",
+      Login: () => window.location.href = "/login",
+      Signup: () => window.location.href = "/signup",
+    };
+  
+    if (actions[item]) {
+      actions[item]();
+    }
   };
+  
 
   return (
     <header className="bg-white shadow-md">
@@ -182,20 +201,19 @@ const Header = () => {
             isOpen={activeDropdown === 'account'}
             onToggle={() => toggleDropdown('account')}
             position="right"
-            onItemClick={(item) => {if (item === 'Logout') {handleLogout()}}}
           />
         </div>
 
         {/* Search and Navigation (Visible only on medium and larger screens) */}
         <div className="hidden md:flex items-center space-x-6">
           <SearchBar />
-          <div className="flex items-center space-x-6">
+          <div className="relative z-50 flex items-center space-x-6">
             <Dropdown
               label={userInfo ?  `Hi, ${userInfo.firstname}` : 'Account'}
               items={userInfo ? ['Profile', 'Logout', 'Orders', 'Settings'] : ['Login', 'Signup']}
               isOpen={activeDropdown === 'account'}
               onToggle={() => toggleDropdown('account')}
-              onItemClick={(item) => {if (item === 'Logout') {handleLogout()}}}
+              onItemClick={handleDropdownClick}
               position="right"
             />
             <Dropdown
