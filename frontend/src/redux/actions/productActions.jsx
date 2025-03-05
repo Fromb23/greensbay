@@ -2,12 +2,13 @@ import productAxios from "../../api/productAxios";
 
 export const fetchProducts = async () => {
   const response = await productAxios.get("/fetch-products");
-  console.log(response.data);
+  console.log("Fetched products", response.data);
   return response.data;
 };
 
 export const fetchCategories = async () => {
   const response = await productAxios.get("/fetch-categories");
+  console.log("Fetch Categories in actions:", response.data);
   return response.data;
 };
 

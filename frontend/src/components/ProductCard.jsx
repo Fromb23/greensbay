@@ -47,8 +47,8 @@ function ProductCard({ product }) {
       {/* Product Details */}
       <h3 className="text-md font-semibold mt-3 truncate">{product.name}</h3>
       <div className="flex justify-center items-center gap-2 mt-2">
-        <p className="text-red-500 font-bold text-lg">${parseInt(product.discount_price, 10)}</p>
-        <p className="text-gray-400 line-through text-sm">${parseInt(product.actual_price, 10)}</p>
+        <p className="text-red-500 font-bold text-lg">Ksh {parseInt(product.discount_price, 10).toLocaleString()}</p>
+        <p className="text-gray-400 line-through text-sm">Ksh {parseInt(product.actual_price, 10).toLocaleString()}</p>
       </div>
       <p className="text-sm text-gray-500 mt-1">Units left: {product.units_left}</p>
 

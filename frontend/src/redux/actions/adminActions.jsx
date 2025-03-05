@@ -3,6 +3,7 @@ import adminAxios from "../../api/adminAxios";
 export const createAdmin = async (adminData) => {
   try {
     const response = await adminAxios.post("/create-admin", adminData);
+    console.log("Response.data", response.data);
     return response.data;
   } catch (error) {
     console.error("Error creating admin:", error);

@@ -22,7 +22,7 @@ const CreateAdmin = () => {
 	  navigate("/auth/admin/login");
       setAdmin({ username: "", email: "", password: ""});
     } catch (error) {
-      setMessage(error.error || "Something went wrong.");
+      setMessage(error.error);
     }
   };
 

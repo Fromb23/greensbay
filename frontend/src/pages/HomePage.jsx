@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchProducts } from "../redux/actions/productActions";
+import { fetchProducts, fetchCategories } from "../redux/actions/productActions";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Slideshow from "../components/SlideShow";
@@ -16,6 +16,17 @@ const Homepage = ({ addToCart }) => {
     loadCategories();
   }, []);
 
+  const loadCategories = async () => {
+    try {
+      const data = await fetchCategories();
+      setCategories(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  console.log("Categories:", categories);
+
   const loadProducts = async () => {
     try {
       const data = await fetchProducts();
@@ -25,25 +36,6 @@ const Homepage = ({ addToCart }) => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const loadCategories = async () => {
-    // Simulating category fetch (Replace with real API if available)
-    const categoryList = [
-      { name: "Flash Sales", img: "/images/flash-sales.png" },
-      { name: "Phone Deals", img: "/images/phone-deals.png" },
-      { name: "Computing Accessories", img: "/images/computing.png" },
-      { name: "New Arrivals", img: "/images/new-arrivals.png" },
-      { name: "Clearance Sale", img: "/images/clearance-sale.png" },
-      { name: "Earn Money NOW", img: "/images/earn-money.png" },
-      { name: "Laptop Deals", img: "/images/laptop-deals.png" },
-      { name: "Deals On Soundbars", img: "/images/soundbars.png" },
-      { name: "Small Appliances", img: "/images/small-appliances.png" },
-      { name: "Home Decor", img: "/images/home-decor.png" },
-      { name: "Supermarket Deals", img: "/images/supermarket.png" },
-      { name: "Beauty Essentials", img: "/images/beauty-essentials.png" },
-    ];
-    setCategories(categoryList);
   };
 
   return (
@@ -82,7 +74,11 @@ const Homepage = ({ addToCart }) => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                   {categories.map((category, index) => (
                     <div key={index} className="bg-white rounded-lg p-3 shadow-md flex flex-col items-center">
-                      <img src={category.img} alt={category.name} className="w-16 h-16 object-cover" />
+                      <img
+                        src={category.img || "noimage.jpg"}
+                        alt={category.name}
+                        className="w-full h-full object-cover"
+                      />
                       <p className="text-sm font-medium mt-2">{category.name}</p>
                     </div>
                   ))}

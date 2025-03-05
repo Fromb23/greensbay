@@ -1,13 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { fetchProducts, deleteProduct } from "../redux/actions/productActions";
 import CreateProduct from "./createProduct";
 import { FaTrash, FaEdit, FaPlus, FaFilter } from "react-icons/fa";
 
 const Products = () => {
+  const [editingRow, setEditingRow] = useState(null);
+  const [editedData, setEditedData] = useState(null);
+  const inputRef = useRef(null); 
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [filter, setFilter] = useState("All");
+
+  const handleRowSelect = (id) => {
+    setEditingRow(id);
+    setEditedData(products.find((product) => product.id === id));
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (inputRef.current && !inputRef.current.contains(event.target)) {
+        setEditingRow(null);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     loadProducts();
@@ -64,10 +83,10 @@ const Products = () => {
             onChange={(e) => setFilter(e.target.value)}
           >
             <option value="All">All Categories</option>
-            {[...new Set(products.map((product) => product.category))].map(
-              (category) => (
-                <option key={category} value={category}>
-                  {category}
+            {[...new Set(products.map((product) => product.category?.name || "N/A"))].map(
+              (categoryName, index) => (
+                <option key={index} value={categoryName}>
+                  {categoryName}
                 </option>
               )
             )}
@@ -108,6 +127,7 @@ const Products = () => {
                   />
                 </th>
                 <th className="py-2 px-4 border">ID</th>
+                <th className="py-2 px-4 border">Image</th>
                 <th className="py-2 px-4 border">Product Name</th>
                 <th className="py-2 px-4 border">Units Left</th>
                 <th className="py-2 px-4 border">Discount Price</th>
@@ -127,12 +147,38 @@ const Products = () => {
                     />
                   </td>
                   <td className="py-2 px-4 border">{product.id}</td>
+                  <td className="py-2 px-4 border">
+                    {editingRow === product.id ? (
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        value={editedData?.image || ""}
+                        onChange={(e) =>
+                          setEditedData({ ...editedData, image: e.target.value })
+                          }
+                        className="border rounded px-2 py-1"
+                        autoFocus
+                      />
+                      ) : (
+                        <img
+                          src={
+                            product.image
+                            ? product.image.replace("imgur.com", "i.imgur.com") + ".jpg"
+                            : "noimage.jpg"
+                          }
+                          alt={product.name}
+                          className="w-10 h-10 object-cover rounded"
+                          onDoubleClick={() => handleRowSelect(product.id)}
+                        />
+                        )
+                    }
+                  </td>
                   <td className="py-2 px-4 border">{product.name}</td>
                   <td className="py-2 px-4 border">{product.units_left}</td>
                   <td className="py-2 px-4 border">${product.discount_price}</td>
                   <td className="py-2 px-4 border">${product.actual_price}</td>
-                  <td className="py-2 px-4 border">{product.category}</td>
-                  <td className="py-2 px-4 border flex gap-4">
+                  <td className="py-2 px-4 border">{product.category?.name}</td>
+                  <td className="py-6 px-4 flex items-center border-b border-r justify-center gap-2">
                     <button className="text-blue-500 hover:underline flex items-center gap-1">
                       <FaEdit />
                     </button>
