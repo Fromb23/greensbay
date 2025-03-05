@@ -75,4 +75,17 @@ router.post('/login', async (req: Request, res: Response): Promise<any> => {
   }
 });
 
+// Get all users
+router.get('/fetch-users', async (req: Request, res: Response): Promise<any> => {
+	  try {
+	const users = await prisma.users.findMany();
+	res.status(200).json(users);
+  } catch (error) {
+	if (error instanceof Error) {
+	  return res.status(400).json({ message: error.message });
+	}
+	return res.status(400).json({ message: 'Something went wrong' });
+  }
+});
+
 export default router;

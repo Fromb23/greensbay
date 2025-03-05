@@ -8,7 +8,12 @@ const prisma = new PrismaClient();
 // Fetch all products
 router.get("/fetch-products", async (req: Request, res: Response) => {
   try {
-    const products = await prisma.products.findMany();
+    const products = await prisma.products.findMany({
+      include: {
+        category: { select: { name: true } },
+      }
+    });
+
     res.json(products);
   } catch (error) {
     console.error("Error fetching products:", error);

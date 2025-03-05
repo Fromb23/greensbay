@@ -87,10 +87,11 @@ model products {
 }
 
 model categories {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  createdAt DateTime  @default(now())
-  products  products[] // One-to-many relationship with products
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  createdAt DateTime   @default(now())
+  img       String?    @db.VarChar(255)
+  products  products[]
 }
 
 model users {
@@ -114,7 +115,9 @@ enum admins_role {
 
 enum order_status {
   PENDING
-  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
 }
 
 enum users_role {

@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import adminRoutes from "./routes/adminRoutes";
 import productRoutes from "./routes/productRoutes";
 import userRoutes from "./routes/userRoutes";
+import orderRoutes from "./routes/orderRoutes";
 
 dotenv.config(); 
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
 
 // Test DB Connection
 app.get("/test-db", async (req, res) => {
