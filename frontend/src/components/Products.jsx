@@ -288,7 +288,8 @@ const Products = () => {
                     )}
                   </td>
 
-                  <td className="py-6 px-4 flex items-center border-b border-r justify-center gap-2">
+                  <td className="border py-2 px-4">
+                  <div className="flex justify-center gap-4">
                     <button className="text-blue-500 hover:underline flex items-center gap-1">
                       <FaEdit />
                     </button>
@@ -298,6 +299,7 @@ const Products = () => {
                     >
                       <FaTrash />
                     </button>
+                    </div>
                   </td>
                 </tr>
               ))}

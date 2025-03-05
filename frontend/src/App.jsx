@@ -17,6 +17,7 @@ import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import CreateAdmin from './pages/CreateAdmin';
 import ProtectedRoute from './components/ProtectedRoutes';
+import Orders from './pages/Orders';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/auth/login/" element={<Login />} />
           <Route path="/auth/signup/" element={<UserSignUp />} />
           <Route path="/cart/" element={<CartPage />} />
+          <Route path="/orders/" element={<Orders />} />
           
           <Route element={<ProtectedRoute role="ADMIN" />}>
             <Route path="/auth/admin/dashboard" element={<AdminDashboard />} />

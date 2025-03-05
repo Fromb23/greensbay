@@ -7,6 +7,41 @@ const FinalPay = ({ previousPayment = "M-PESA XXXX-2334" }) => {
   const [cardDetails, setCardDetails] = useState({ number: "", expiry: "", cvv: "" });
   const [totalAmount, setTotalAmount] = useState(0);
 
+  const userInfo = localStorage.getItem("userInfo");
+  const parsedUserInfo = JSON.parse(userInfo);
+  const handlePayment = async () => {
+    if (!selectedPayment) {
+      alert("Please select a payment method.");
+      return;
+    }
+
+    if (!userInfo) {
+      alert("Please login to proceed with payment.");
+    }
+    const id = parsedUserInfo.id;
+    console.log("🟢 User ID:", id);
+    const orderData = {
+      id,
+      totalAmount,
+      status: "Pending",
+      createdAt: new Date().toISOString(),
+    };
+    console.log("🟢 Creating order...", orderData);
+
+    try {
+      const response = await fetch("http://localhost:5001/api/orders/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData),
+      });
+      if (!response.ok) throw new Error("❌ Order creation failed!");
+      const result = await response.json();
+      console.log("🟢 Order created successfully!", result);
+    } catch (error) {
+      console.error("❌ Order creation error:", error.message);
+    }
+  };
+
   useEffect(() => {
     // Retrieve stored values
     const storedTotal = localStorage.getItem("totalAmount");
@@ -119,7 +154,10 @@ const FinalPay = ({ previousPayment = "M-PESA XXXX-2334" }) => {
         {/* PAY NOW BUTTON */}
         <div className="flex justify-between items-center">
           <button className="cursor-pointer w-3/4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-transform duration-200 active:scale-90"
-            onClick={() => alert("Payment successful!")}>
+            onClick={() => {
+              alert("Payment Successful!");
+              handlePayment();
+            }} >
             PAY NOW: KSh {totalAmount.toLocaleString()}
           </button>
           <HelpCircle className="w-8 h-8 text-gray-500 cursor-pointer" />
