@@ -21,15 +21,14 @@ const FinalPay = ({ previousPayment = "M-PESA XXXX-2334" }) => {
     const id = parsedUserInfo.id;
     console.log("🟢 User ID:", id);
     const orderData = {
-      id,
+      userId: id,
       totalAmount,
-      status: "Pending",
       createdAt: new Date().toISOString(),
     };
     console.log("🟢 Creating order...", orderData);
 
     try {
-      const response = await fetch("http://localhost:5001/api/orders/create", {
+      const response = await fetch("http://localhost:5001/api/orders/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
