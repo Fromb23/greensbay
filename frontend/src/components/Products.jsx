@@ -4,7 +4,6 @@ import CreateProduct from "./createProduct";
 import { FaTrash, FaEdit, FaPlus, FaFilter } from "react-icons/fa";
 
 const Products = () => {
-  const [editingRow, setEditingRow] = useState(null);
   const [editingCell, setEditingCell] = useState(null);
   const [editedData, setEditedData] = useState({});
   const inputRef = useRef(null); 
@@ -84,6 +83,13 @@ const Products = () => {
     }
   };
 
+  const handleDeleteSelected = () => {
+    if (selectedProducts.length > 0) {
+      windows.confirm("Are you sure you want to delete the selected products?");
+      setSelectedProducts([]);
+    }
+  };
+
   const filteredProducts =
     filter === "All"
       ? products
@@ -113,6 +119,15 @@ const Products = () => {
           </select>
           <FaFilter className="text-gray-500 text-lg" />
         </div>
+        {selectedProducts.length > 0 && (
+          <button
+            onClick={handleDeleteSelected}
+            className="bg-red-500 text-white px-4 py-2 rounded"
+          >
+            Delete Selected
+          </button>
+        )}
+
 
         {/* Create Product Button */}
         <button
