@@ -217,7 +217,7 @@ const Header = () => {
             items={userInfo ? ['Logout', 'Profile', 'Orders', 'Settings'] : ['Login', 'Signup'] || []}
             isOpen={activeDropdown === 'account'}
             onToggle={() => toggleDropdown('account')}
-            position="right"
+            position="left"
           />
           </div>
         </div>
