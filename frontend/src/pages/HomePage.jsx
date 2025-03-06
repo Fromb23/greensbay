@@ -44,7 +44,7 @@ const Homepage = ({ addToCart }) => {
 
       <div className="flex flex-col md:flex-row flex-grow">
         {/* Sidebar */}
-        <div className="hidden md:block bg-gray-100 m-3 rounded-md">
+        <div className="hidden md:block bg-gray-100 mt-10 m-3 rounded-md">
           <FilterSidebar />
         </div>
 

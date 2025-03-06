@@ -2,7 +2,7 @@ import React from "react";
 
 function FilterSidebar() {
   return (
-    <aside className="w-64 p-4 bg-white shadow-md mt-10">
+    <aside className="w-64 p-4 bg-white shadow-md">
       {/* Category Section */}
       <div className="mb-6">
         <h3 className="text-lg font-semibold mb-2">Category</h3>

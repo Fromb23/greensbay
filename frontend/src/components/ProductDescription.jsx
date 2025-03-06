@@ -2,11 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
 import { toast } from "react-toastify";
+import { Heart } from "lucide-react";
 
 const ProductDescription = ({ product }) => {
   const [isEnlarged, setIsEnlarged] = useState(false);
+  const [isWishlisted, setIsWishlisted] = useState(false);
   const dispatch = useDispatch();
   
+  const handleWishListToggle = () => {
+    if (isWishlisted) {
+      toast.error("Removed from Wishlist");
+    } else {
+      toast.success("Added to Wishlist");
+    }
+    setIsWishlisted(!isWishlisted);
+  };
   useEffect(() => {
     if (!product?.id) return;
     fetch(`http://localhost:5001/api/products/fetch-product/${product.id}`)
@@ -27,7 +37,7 @@ const ProductDescription = ({ product }) => {
   };
 
   return (
-    <div className="p-4 w-full border border-gray-200 rounded-md bg-blue-200 md:mx-2">
+    <div className="p-4 w-full rounded-md">
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-9">
         <div className="w-full md:w-1/2">
           <div className="relative">
@@ -51,12 +61,18 @@ const ProductDescription = ({ product }) => {
         </div>
 
         <div className="w-full md:w-1/2">
+          <div className="flex justify-end">
+            <Heart className={`text-red-500 cursor-pointer transition-colors duration-300} ${
+              isWishlisted ? "text-red-500 fill-red-500" : "text-red-500 text-gray-500"
+              }`} 
+              onClick={handleWishListToggle}/>
+          </div>
           <h2 className="text-2xl font-bold mb-2">{product.name}</h2>
 
           <div className="mt-4">
-            <p className="text-lg font-bold">${product.discount_price}</p>
-            <p className="text-sm line-through text-gray-500">${product.actual_price}</p>
-            <p className="text-green-600">
+            <p className="text-lg font-bold">Ksh {product.discount_price}</p>
+            <p className="text-sm line-through text-gray-500">Ksh {product.actual_price}</p>
+            <p className="text-red-600">
               {Math.round(
                 ((product.actual_price - product.discount_price) / product.actual_price) * 100
               )}
@@ -64,7 +80,7 @@ const ProductDescription = ({ product }) => {
             </p>
           </div>
 
-          <p className="text-gray-600 mt-2">{product.units_left} units left</p>
+          <p className="text-gray-600 mt-2">{product.units_left} items left</p>
         </div>
       </div>
 
