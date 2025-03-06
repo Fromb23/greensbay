@@ -1,55 +1,72 @@
 import { current } from "@reduxjs/toolkit";
 import React, { useState, useEffect } from "react";
 
-const packageSteps = [
-	{ status: "ORDER PLACED", date: "Saturday, 01-03", completed: false, current: true },
-	{ status: "PENDING CONFIRMATION", date: "Saturday, 01-03", completed: true },
-	{ status: "WAITING TO BE SHIPPED", date: "Saturday, 01-03", completed: true },
-	{ status: "SHIPPED", date: "Monday, 03-03", completed: false, current: false },
-	{ status: "OUT FOR DELIVERY", date: "Tuesday, 04-03", completed: false, current: false },
+const OrderTracker = ({ orderStatus }) => {
+  const statusTimeline = [
+    { status: 'ORDER PLACED', date: 'Saturday, 01-03' },
+    { status: 'PENDING CONFIRMATION', date: 'Saturday, 01-03' },
+    { status: 'WAITING TO BE SHIPPED', date: 'Saturday, 01-03' },
+    { status: 'SHIPPED', date: 'Monday, 03-03' },
+    { status: 'OUT FOR DELIVERY', date: '' },
+    { status: 'DELIVERED', date: '' },
   ];
-  
-  const PackageHistory = () => {
-	return (
-	  <div className="p-6 bg-white rounded-lg shadow-md">
-		<h2 className="text-lg font-semibold mb-4">Package History</h2>
-		<div className="relative border-l-4 border-blue-500 pl-6 space-y-4">
-		  {packageSteps.map((step, index) => (
-			<div key={index} className="relative">
-			  {/* Icon */}
-			  <div
-				className={`absolute -left-7 top-2 w-4 h-4 rounded-full border-2 ${
-				  step.current
-					? "bg-blue-500 border-blue-500"
-					: step.completed
-					? "bg-white border-blue-500"
-					: "bg-gray-300 border-gray-300"
-				}`}
-			  />
-			  {/* Status */}
-			  <div className="flex flex-col">
-				<span
-				  className={`px-3 py-1 text-xs font-bold uppercase rounded-lg w-fit ${
-					step.current
-					  ? "bg-blue-700 text-white"
-					  : "bg-blue-500 text-white"
-				  }`}
-				>
-				  {step.status}
-				</span>
-				<span className="text-sm text-gray-600">{step.date}</span>
-			  </div>
-			</div>
-		  ))}
-		</div>
-		{/* Shipped Message */}
-		<div className="mt-4 p-3 bg-gray-100 rounded-lg text-gray-700 text-sm">
-		  It won’t be long now! Your item/order has been shipped, and we’ll notify
-		  you as soon as it’s ready for delivery.
-		</div>
-	  </div>
-	);
-  };
+
+  const [timeline, setTimeline] = useState(statusTimeline);
+
+  useEffect(() => {
+    const currentIndex = statusTimeline.findIndex((item) => item.status === orderStatus);
+    const updatedTimeline = statusTimeline.map((item, index) => ({
+      ...item,
+      isCompleted: index < currentIndex,
+      isCurrent: index === currentIndex,
+    }));
+    setTimeline(updatedTimeline);
+  }, [orderStatus]);
+
+  return (
+    <div className="p-6 bg-white shadow-md rounded-lg">
+      <h2 className="text-xl font-bold mb-4">Package History</h2>
+      <div className="relative border-l-4 border-gray-300 pl-6">
+        {timeline.map((item, index) => (
+          <div key={index} className="relative mb-6 flex items-start">
+            {/* Connector line */}
+            {index !== timeline.length - 1 && (
+              <div
+                className={`absolute left-4 top-8 w-1 h-full ${
+                  item.isCompleted || item.isCurrent ? 'bg-green-500' : 'bg-gray-300'
+                }`}
+              ></div>
+            )}
+            
+            {/* Status Icon */}
+            <div
+              className={`w-8 h-8 flex items-center justify-center rounded-full z-10 border-2 ${
+                item.isCurrent ? 'bg-blue-600 border-blue-600' :
+                item.isCompleted ? 'bg-green-500 border-green-500' : 'bg-gray-300 border-gray-300'
+              }`}
+            >
+              {item.isCompleted ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              ) : item.isCurrent ? (
+                <div className="w-4 h-4 bg-white rounded-full"></div>
+              ) : null}
+            </div>
+            
+            {/* Status Text */}
+            <div className="ml-4">
+              <p className={`font-semibold ${item.isCurrent ? 'text-blue-600' : 'text-gray-900'}`}>{item.status}</p>
+              <p className="text-sm text-gray-500">{item.date}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-gray-600">It won't be long now! Your item/order has been shipped, and we'll notify you as soon as it's ready for delivery.</p>
+    </div>
+  );
+};
+
 
 const Orders = ({ isAdmin, selectedCustomer }) => {
   const [orders, setOrders] = useState(null);
@@ -141,7 +158,7 @@ const Orders = ({ isAdmin, selectedCustomer }) => {
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">Your Orders</h2>
 
-	  <div><PackageHistory /></div>
+	  <div><OrderTracker /></div>
 
       {error ? (
         <p className="text-red-500">Error: {error}</p>
