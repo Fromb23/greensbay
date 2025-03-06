@@ -58,7 +58,7 @@ const Homepage = ({ addToCart }) => {
           ) : (
             <>
               {/* Product Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-3 md:p-5 rounded-md border-t border-gray-300">
+              <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 p-3 md:p-5 rounded-md border-t border-gray-300">
                 {products.length > 0 ? (
                   products.map((product) => (
                     <ProductCard key={product.id} product={product} addToCart={addToCart} />

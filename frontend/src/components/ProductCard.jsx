@@ -32,28 +32,37 @@ function ProductCard({ product }) {
 
   return (
     <div
-      className="bg-white shadow-lg rounded-lg p-4 text-center cursor-pointer transition-transform duration-300 hover:scale-105 border border-gray-200 flex flex-col"
+      className="flex-1 overflow-hidden bg-white shadow-lg rounded-lg p-4 text-xs cursor-pointer transition-transform duration-300 hover:scale-105 border border-gray-200 flex flex-col"
       onClick={() => navigate(`/product/${product.id}`)}
     >
       {/* Image Section */}
-      <div className="w-full aspect-square bg-gray-100 rounded-lg overflow-hidden">
+      <div className="md:w-1/2 md:ml-8 aspect-square bg-gray-100 rounded-lg overflow-hidden">
         <img
           src={product.image ? product.image.replace("imgur.com", "i.imgur.com") + ".jpg" : "noimage.jpg"}
           alt={product.name}
-          className="w-full h-full object-cover"
+          className="w-full max-h-50 object-contain"
         />
       </div>
 
       {/* Product Details */}
-      <h3 className="text-md font-semibold mt-3 truncate">{product.name}</h3>
-      <div className="flex justify-center items-center gap-2 mt-2">
-        <p className="text-red-500 font-bold text-lg">Ksh {parseInt(product.discount_price, 10).toLocaleString()}</p>
-        <p className="text-gray-400 line-through text-sm">Ksh {parseInt(product.actual_price, 10).toLocaleString()}</p>
+      <h3 className="font-semibold mt-3 text-gray-500 truncate">{product.name}</h3>
+      <div className="gap-2 mt-2">
+        <p className="text-black-500 font-bold md:text-xs">Ksh {parseInt(product.discount_price, 10).toLocaleString()}</p>
+        <p className="text-gray-500 line-through md:text-xs">Ksh {parseInt(product.actual_price, 10).toLocaleString()}</p>
       </div>
-      <p className="text-sm text-gray-500 mt-1">Units left: {product.units_left}</p>
-
+      <div className="hidden sm:block lg:block w-full mb-0">
+        {/* Units Left Text */}
+        <p className="text-xs text-left mt-4 mb-0 font-medium text-gray-700">items left {product.units_left}</p>
+        {/* Progress Bar */}
+        <div className="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+          <div
+            className="bg-orange-500 h-2.5 rounded-full"
+            style={{ width: `${(product.units_left / product.stock) * 100}%` }}
+          ></div>
+          </div>
+      </div>
       {/* Add to Cart Button */}
-      <button
+      {/* <button
         onClick={handleAddToCart}
         className={`w-full mt-3 px-4 py-2 rounded-md text-white font-semibold transition ${
           addedToCartItemId === product.id
@@ -63,7 +72,7 @@ function ProductCard({ product }) {
         disabled={addedToCartItemId === product.id}
       >
         {addedToCartItemId === product.id ? "Added to cart" : "Add to Cart"}
-      </button>
+      </button> */}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
+import { toast } from "react-toastify";
 
 const ProductDescription = ({ product }) => {
   const [isEnlarged, setIsEnlarged] = useState(false);
@@ -22,6 +23,7 @@ const ProductDescription = ({ product }) => {
 
   const handleAddToCart = () => {
     dispatch(addToCart(product));
+    toast.success("Added to Cart");
   };
 
   return (
