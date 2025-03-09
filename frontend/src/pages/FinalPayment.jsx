@@ -5,6 +5,9 @@ const FinalPayment = () => {
   const [previousPayment, setPreviousPayment] = useState("");
 
   const maskPhone = (phone) => {
+    if (!phone || typeof phone !== "string") {
+      return "Invalid phone"; // Handle null, undefined, or non-string values
+    }
     return phone.replace(/^(\d{2})\d{5}(\d{3})$/, "$1-XXXXX-$2");
   };
 

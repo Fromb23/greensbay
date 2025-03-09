@@ -2,6 +2,7 @@ import React from "react";
 import Products from "./Products";
 import ReportAnalysis from "./ReportAnalysis";
 import CustomerInfo from "./CustomerInfo";
+import AdminOrderTracker from "./AdminTracker";
 
 const ContentArea = ({ activeComponent, setActiveComponent }) => {
   if (!activeComponent) return null;
@@ -20,7 +21,7 @@ const ContentArea = ({ activeComponent, setActiveComponent }) => {
       {/* Display the Active Component */}
       {activeComponent === "Dashboard" && <ReportAnalysis />}
       {activeComponent === "Products" && <Products />}
-      {activeComponent === "Orders" && <h1>Orders List</h1>}
+      {activeComponent === "Orders" && <AdminOrderTracker />}
       {activeComponent === "Customers" && <CustomerInfo />}
       {activeComponent === "Reports" && <h1>Reports Data</h1>}
     </div>

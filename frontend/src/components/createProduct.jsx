@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { createProduct } from "../redux/actions/productActions";
-import { FaTimes } from "react-icons/fa"; // Import close icon
+import { FaTimes } from "react-icons/fa";
 
 const CreateProduct = ({ onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
     image: "",
-    units_left: "",
-    stock: "",
-    discount_price: "",
-    actual_price: "",
+    units_left: 0,
+    stock: 0,
+    discount_price: 0,
+    actual_price: 0,
     category: "",
   });
 

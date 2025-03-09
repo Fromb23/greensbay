@@ -3,12 +3,12 @@ import React, { useState, useEffect } from "react";
 
 const OrderTracker = ({ orderStatus }) => {
   const statusTimeline = [
-    { status: 'ORDER PLACED', date: 'Saturday, 01-03' },
+    { status: 'PENDING', date: 'Saturday, 01-03' },
     { status: 'PENDING CONFIRMATION', date: 'Saturday, 01-03' },
     { status: 'WAITING TO BE SHIPPED', date: 'Saturday, 01-03' },
     { status: 'SHIPPED', date: 'Monday, 03-03' },
     { status: 'OUT FOR DELIVERY', date: '' },
-    { status: 'DELIVERED', date: '' },
+    { status: 'CONFIRMED', date: '' },
   ];
 
   const [timeline, setTimeline] = useState(statusTimeline);
@@ -24,7 +24,7 @@ const OrderTracker = ({ orderStatus }) => {
   }, [orderStatus]);
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-lg">
+    <div className="p-6 shadow-md rounded-lg">
       <h2 className="text-xl font-bold mb-4">Package History</h2>
       <div className="relative border-l-4 border-gray-300 pl-6">
         {timeline.map((item, index) => (
@@ -69,7 +69,8 @@ const OrderTracker = ({ orderStatus }) => {
 
 
 const Orders = ({ isAdmin, selectedCustomer }) => {
-  const [orders, setOrders] = useState(null);
+  const [trackingOrderId, setTrackingOrderId] = useState(null);
+  const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
 
   const userInfo = localStorage.getItem("userInfo");
@@ -97,10 +98,13 @@ const Orders = ({ isAdmin, selectedCustomer }) => {
 
         const data = await response.json();
         console.log("🟢 Orders Data:", data);
-        setOrders(data.orders || []);
+
+        // ✅ Ensure `orders` is always an array
+        setOrders(Array.isArray(data.orders) ? data.orders : (data.order ? [data.order] : []));
+
       } catch (err) {
         setError(err.message);
-        setOrders([]);
+        setOrders([]); // Reset to an empty array
       }
     };
 
@@ -111,7 +115,6 @@ const Orders = ({ isAdmin, selectedCustomer }) => {
     }
   }, [userId, isAdmin, selectedCustomer]);
 
-  // Function to display order progress
   const getOrderProgress = (status) => {
     const statusMap = {
       PENDING: "Pending ➝ Shipped ➝ Delivered",
@@ -122,48 +125,14 @@ const Orders = ({ isAdmin, selectedCustomer }) => {
     return statusMap[status] || "Unknown Status";
   };
 
-  useEffect(() => {
-	const fetchOrders = async () => {
-	  try {
-		const response = await fetch(
-		  isAdmin
-			? `/api/orders/orders?userId=${selectedCustomer}`
-			: `http://localhost:5001/api/orders/order/${userId}`
-		);
-  
-		if (!response.ok) {
-		  throw new Error("Failed to fetch orders");
-		}
-  
-		const data = await response.json();
-		console.log("🟢 Orders Data:", data);
-  
-		// Ensure `orders` is an array, even for a single order
-		setOrders(Array.isArray(data.orders) ? data.orders : [data]);
-  
-	  } catch (err) {
-		setError(err.message);
-		setOrders([]);
-	  }
-	};
-  
-	if (userId || (isAdmin && selectedCustomer)) {
-	  fetchOrders();
-	} else {
-	  setOrders([]);
-	}
-  }, [userId, isAdmin, selectedCustomer]);
-  
+  console.log("🟢 Orders Data:", orders, typeof orders);
+
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">Your Orders</h2>
 
-	  <div><OrderTracker /></div>
-
       {error ? (
         <p className="text-red-500">Error: {error}</p>
-      ) : orders === null ? (
-        <p className="text-gray-600">Fetching orders...</p>
       ) : orders.length === 0 ? (
         <p className="text-gray-600">
           You've no orders yet, <a href="/" className="text-blue-500">go shopping</a>.
@@ -173,17 +142,20 @@ const Orders = ({ isAdmin, selectedCustomer }) => {
           {orders.map((order, index) => (
             <div key={`order-${order.id || index}`} className="p-4 border rounded-lg bg-white shadow">
               <h3 className="text-lg font-bold">Order #{order.id}</h3>
-              <p><strong>Items:</strong> {order.items?.join(", ") || "No items listed"}</p>
+              <p><strong>Items:</strong> {order.items || "No items listed"}</p>
               <p><strong>Status:</strong> {order.status}</p>
               <p><strong>Progress:</strong> {getOrderProgress(order.status)}</p>
               {order.status !== "DELIVERED" && order.status !== "CANCELLED" && (
                 <button
-                  onClick={() => alert(`Tracking Order: ${order.status}`)}
+                  onClick={() => {
+                    setTrackingOrderId(trackingOrderId === order.id ? null : order.id);
+                  }}
                   className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
                 >
                   Track My Order
                 </button>
               )}
+              {trackingOrderId === order.id && <OrderTracker orderStatus={order.status} />}
             </div>
           ))}
         </div>

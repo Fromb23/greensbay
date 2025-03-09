@@ -10,6 +10,7 @@ const UserSignUp = () => {
     firstName: "",
     lastName: "",
     email: "",
+    phone: "",
     password: "",
   });
 
@@ -82,6 +83,14 @@ const UserSignUp = () => {
               placeholder="Email"
               className="w-full p-3 border rounded-md"
               value={signupForm.email}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="phone"
+              placeholder="Phone number"
+              className="w-full p-3 border rounded-md"
+              value={signupForm.phone}
               onChange={handleChange}
             />
 
