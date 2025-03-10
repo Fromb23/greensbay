@@ -34,6 +34,10 @@ const FinalPay = ({ previousPayment = "M-PESA XXXX-2334" }) => {
         body: JSON.stringify(orderData),
       });
       if (!response.ok) throw new Error("❌ Order creation failed!");
+      if (response.ok) {
+        localStorage.removeItem("totalAmount");
+        localStorage.removeItem("cartItems");
+      }
       const result = await response.json();
       console.log("🟢 Order created successfully!", result);
     } catch (error) {
