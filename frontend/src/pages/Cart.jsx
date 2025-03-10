@@ -10,6 +10,9 @@ const CartPage = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  const userId = userInfo.id;
+
   return (
     <div className="bg-gray-200 min-h-screen">
       <Header />
@@ -24,7 +27,7 @@ const CartPage = () => {
               updateQuantity={(id, quantity) => dispatch(updateQuantity({ id, quantity }))}
               removeFromCart={(id) => dispatch(removeFromCart(id))}
             />
-            <Wishlist wishlistItems={[]} />
+            <Wishlist userId={userId} />
           </div>
 
           {/* Cart Summary Section */}
