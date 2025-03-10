@@ -3,33 +3,69 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { Heart } from "lucide-react";
+import axios from "axios";
 
 const ProductDescription = ({ product }) => {
   const [isEnlarged, setIsEnlarged] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const dispatch = useDispatch();
-  
-  const handleWishListToggle = () => {
-    if (isWishlisted) {
-      toast.error("Removed from Wishlist");
-    } else {
-      toast.success("Added to Wishlist");
-    }
-    setIsWishlisted(!isWishlisted);
-  };
-  useEffect(() => {
-    if (!product?.id) return;
-    fetch(`http://localhost:5001/api/products/fetch-product/${product.id}`)
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch product");
-      return response.json();
-    })
-    .catch((error) => console.error("Error fetching product:", error));
-}, [product?.id]);
 
-  const toggleEnlarge = () => {
-    setIsEnlarged(!isEnlarged);
+  const user = JSON.parse(localStorage.getItem("userInfo") || "{}");
+
+  // Check if product is in wishlist on page load
+  useEffect(() => {
+    if (!product?.id || !user?.id) return;
+  
+    const checkWishlist = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/api/wishlist/${user.id}`);
+        const wishlistItems = response.data?.wishlist || [];
+  
+        if (!Array.isArray(wishlistItems)) {
+          console.log("Invalid wishlist data:", wishlistItems);
+          return;
+        }
+  
+        // Ensure the wishlist contains the specific productId
+        const isInWishlist = wishlistItems.some((item) => item.productId === product.id && item.userId === user.id);
+  
+        setIsWishlisted(isInWishlist);
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      }
+    };
+  
+    checkWishlist();
+  }, [product?.id, user?.id]);  
+
+  // Toggle Wishlist
+  const handleWishListToggle = async () => {
+    if (!user.id) {
+      toast.error("Please login to add to wishlist");
+      return;
+    }
+
+    try {
+      if (isWishlisted) {
+        console.log("Removing from wishlist", product.id);
+        await axios.delete(`http://localhost:5001/api/wishlist/remove/${product.id}`);
+        toast.error("Removed from Wishlist");
+      } else {
+        await axios.post("http://localhost:5001/api/wishlist/add", {
+          userId: user.id,
+          productId: product.id,
+        });
+        toast.success("Added to Wishlist");
+      }
+
+      setIsWishlisted(!isWishlisted);
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+      toast.error("Something went wrong");
+    }
   };
+
+  const toggleEnlarge = () => setIsEnlarged(!isEnlarged);
 
   const handleAddToCart = () => {
     dispatch(addToCart(product));
@@ -39,6 +75,7 @@ const ProductDescription = ({ product }) => {
   return (
     <div className="p-4 w-full rounded-md">
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-9">
+        {/* Product Image */}
         <div className="w-full md:w-1/2">
           <div className="relative">
             <img
@@ -60,13 +97,18 @@ const ProductDescription = ({ product }) => {
           </div>
         </div>
 
+        {/* Product Details */}
         <div className="w-full md:w-1/2">
+          {/* Wishlist Button */}
           <div className="flex justify-end">
-            <Heart className={`text-red-500 cursor-pointer transition-colors duration-300} ${
-              isWishlisted ? "text-red-500 fill-red-500" : "text-red-500 text-gray-500"
-              }`} 
-              onClick={handleWishListToggle}/>
+            <Heart
+              className={`cursor-pointer transition-colors duration-300 ${
+                isWishlisted ? "text-red-500 fill-red-500" : "text-gray-500"
+              }`}
+              onClick={handleWishListToggle}
+            />
           </div>
+
           <h2 className="text-2xl font-bold mb-2">{product.name}</h2>
 
           <div className="mt-4">
