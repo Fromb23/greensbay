@@ -82,6 +82,7 @@ model products {
   categoryId     Int?
   orderitem      orderitem[]
   category       categories? @relation(fields: [categoryId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_category")
+  Wishlist       Wishlist[]
 
   @@index([categoryId], map: "fk_category")
 }
@@ -106,6 +107,16 @@ model users {
   customeraddress customeraddress?
   deliveryaddress deliveryaddress[]
   order           order[]
+  Wishlist        Wishlist[]
+}
+
+model Wishlist {
+  id        Int      @id @default(autoincrement())
+  user      users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  createdAt DateTime @default(now())
 }
 
 enum admins_role {
