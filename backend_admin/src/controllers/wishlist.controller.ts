@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 export const addToWishlist = async (req: Request, res: Response): Promise<any> => {
   try {
     const { userId, productId } = req.body;
+    console.log(req.body);
 
     const wishlistItem = await prisma.wishlist.create({
       data: { userId, productId },
@@ -21,15 +22,14 @@ export const addToWishlist = async (req: Request, res: Response): Promise<any> =
 // Remove product from wishlist
 export const removeFromWishlist = async (req: Request, res: Response): Promise<any> => {
   try {
-    const userId = parseInt(req.body.userId, 10);
     const productId = parseInt(req.params.productId, 10);
 
-    if (isNaN(userId) || isNaN(productId)) {
+    if (isNaN(productId)) {
       return res.status(400).json({ error: "Invalid userId or productId" });
     }
 
     await prisma.wishlist.deleteMany({
-      where: { userId, productId },
+      where: { productId },
     });
 
     res.json({ success: true, message: "Product removed from wishlist" });

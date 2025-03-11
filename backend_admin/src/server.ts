@@ -7,6 +7,7 @@ import productRoutes from "./routes/productRoutes";
 import userRoutes from "./routes/userRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import wishlistRoutes from "./routes/wishlistRoutes";
+import addressRoutes from "./routes/addressRoutes";
 
 dotenv.config(); 
 
@@ -21,6 +22,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/address", addressRoutes);
 
 // Test DB Connection
 app.get("/test-db", async (req, res) => {
