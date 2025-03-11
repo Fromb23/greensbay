@@ -1,11 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Cart = ({ cartItems, updateQuantity, removeFromCart }) => {
-  // Debug: Log cartItems to inspect its structure
+  const navigate = useNavigate();
   console.log("cartItems:", cartItems);
 
   return (
     <div className="p-4 rounded-lg shadow-md bg-white mt-3">
+      <button
+      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      onClick={() => navigate("/chat")}
+    >
+      Support
+    </button>
       {/* Hide "Cart (0)" if cart is empty */}
       <h2 className="text-xl font-bold mb-4">
         {cartItems.length > 0 && `Cart (${cartItems.length})`}
@@ -17,7 +24,9 @@ const Cart = ({ cartItems, updateQuantity, removeFromCart }) => {
           <p className="mb-4 text-center">
             Browse our categories and discover our best deals
           </p>
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
+          <button
+            onClick={() => navigate("/")} 
+            className="bg-green-500 text-white px-4 py-2 rounded cursor-pointer">
             Browse Categories
           </button>
         </div>

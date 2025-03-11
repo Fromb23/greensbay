@@ -73,12 +73,12 @@ const AdminOrderTracker = () => {
                     onChange={(e) => handleUpdate(order.id, e.target.value)}
                     className="p-1 border rounded"
                   >
-                    <option value="ORDER PLACED">ORDER PLACED</option>
-                    <option value="PENDING CONFIRMATION">PENDING CONFIRMATION</option>
+                    <option value="PENDING CONFIRMATION">PENDING</option>
                     <option value="WAITING TO BE SHIPPED">WAITING TO BE SHIPPED</option>
                     <option value="SHIPPED">SHIPPED</option>
                     <option value="OUT FOR DELIVERY">OUT FOR DELIVERY</option>
                     <option value="DELIVERED">DELIVERED</option>
+                    <option value="CANCELLED">CANCELLED</option>
                   </select>
                 </td>
                 <td className="p-2 border">

@@ -104,7 +104,7 @@ const Orders = ({ isAdmin, selectedCustomer }) => {
 
       } catch (err) {
         setError(err.message);
-        setOrders([]); // Reset to an empty array
+        setOrders([]);
       }
     };
 
