@@ -19,6 +19,7 @@ import CreateAdmin from './pages/CreateAdmin';
 import ProtectedRoute from './components/ProtectedRoutes';
 import Orders from './pages/Orders';
 import Chat from './components/Chat';
+import AdminSettings from './pages/AdminSettings';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           
           <Route element={<ProtectedRoute role="ADMIN" />}>
             <Route path="/auth/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/settings" element={<AdminSettings /> } />
           </Route>
           <Route element={<ProtectedRoute role="CUSTOMER" />}>
             <Route path="/checkout/summary" element={<Checkout />} />

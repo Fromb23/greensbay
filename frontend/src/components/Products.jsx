@@ -168,6 +168,7 @@ const Products = () => {
                 <th className="py-2 px-4 border">Discount Price</th>
                 <th className="py-2 px-4 border">Actual Price</th>
                 <th className="py-2 px-4 border">Category</th>
+                <th className="py-2 px-4 border">Status</th>
                 <th className="py-2 px-4 border">Actions</th>
               </tr>
             </thead>
@@ -287,6 +288,25 @@ const Products = () => {
                         </span>
                     )}
                   </td>
+                  <td className="py-2 px-4 border">
+                    {editingCell === `${product.id}-status` ? (
+                      <select
+                        value={editedData[product.id]?.status ?? product.status}
+                        onChange={(e) => handleEdit(product.id, "status", e.target.value)}
+                        onBlur={() => handleBlur(product.id)}
+                        className="border rounded px-2 py-1"
+                        autoFocus
+                      >
+                        <option value="active">ACTIVE</option>
+                        <option value="inactive">INACTIVE</option>
+                      </select>
+                      ) : (
+                        <span onDoubleClick={() => setEditingCell(`${product.id}-status`)}>
+                          {product.status}
+                        </span>
+                        )
+                      }
+                  </td>                  
 
                   <td className="border py-2 px-4">
                   <div className="flex justify-center gap-4">
