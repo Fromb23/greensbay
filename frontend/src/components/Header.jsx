@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CartBadge from './CartBadge';
 import { logout } from '../redux/slices/userSlice';
 import { IoHelpCircleOutline } from "react-icons/io5";

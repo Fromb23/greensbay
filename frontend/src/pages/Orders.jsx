@@ -2,6 +2,7 @@ import { current } from "@reduxjs/toolkit";
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const OrderTracker = ({ orderStatus }) => {
   const statusTimeline = [
@@ -74,8 +75,10 @@ const Orders = ({ isAdmin, selectedCustomer }) => {
   const [trackingOrderId, setTrackingOrderId] = useState(null);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const userInfo = localStorage.getItem("userInfo");
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   let userId = null;
 
   try {
@@ -126,6 +129,14 @@ const Orders = ({ isAdmin, selectedCustomer }) => {
     };
     return statusMap[status] || "Unknown Status";
   };
+
+  useEffect(() => {
+    if (!userInfo || !userInfo.id) {
+      localStorage.setItem("redirectAfterLogin", location.pathname);
+      navigate("/auth/login");
+      return;
+    }
+}, [userInfo, navigate, location]);
 
   return (
     <div><Header /> 
