@@ -7,12 +7,6 @@ const Cart = ({ cartItems, updateQuantity, removeFromCart }) => {
 
   return (
     <div className="p-4 rounded-lg shadow-md bg-white mt-3">
-      <button
-      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      onClick={() => navigate("/chat")}
-    >
-      Support
-    </button>
       {/* Hide "Cart (0)" if cart is empty */}
       <h2 className="text-xl font-bold mb-4">
         {cartItems.length > 0 && `Cart (${cartItems.length})`}

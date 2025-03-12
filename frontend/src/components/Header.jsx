@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import CartBadge from './CartBadge';
 import { logout } from '../redux/slices/userSlice';
+import { IoHelpCircleOutline } from "react-icons/io5";
 
 const UserIcon = ({ userInfo, type }) => {
-  const isMobile = window.innerWidth <= 768; // Check for mobile screen
+  const isMobile = window.innerWidth <= 768;
 
   return (
     <div className="flex items-center space-x-2">
@@ -65,31 +66,31 @@ const UserIcon = ({ userInfo, type }) => {
 
 // Reusable Dropdown Component
 const Dropdown = ({ label, items, isOpen, onToggle, position = "left" }) => {
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleItemClick = (item) => {
     console.log("Clicked item:", item);
 
     const routes = {
-      Profile: "/profile",
       Orders: "/orders",
-      Settings: "/settings",
+      Settings: "/user/settings",
       Login: "/auth/login",
       Signup: "/auth/signup",
       Electronics: "/electronics",
       Clothing: "/clothing",
       "Home & Garden": "/home-garden",
       FAQ: "/faq",
-      Support: "/support",
+      Support: "/chat",
       "Contact Us": "/contact",
     };
 
     if (item === "Logout") {
-      localStorage.removeItem("userInfo");
-      localStorage.removeItem("token");
-      navigate("/auth/login");
+      dispatch(logout());
+      navigate("/");
+      window.location.reload();
     } else if (routes[item]) {
-      navigate(routes[item]); // Navigate to route
+      navigate(routes[item]);
     } else {
       console.warn("No route found for:", item);
     }
@@ -253,7 +254,7 @@ const Header = () => {
           <div className="md:hidden relative" ref={mobileAccountRef}>
             <Dropdown
               label={<UserIcon />}
-              items={userInfo ? ['Logout', 'Profile', 'Orders', 'Settings'] : ['Login', 'Signup']}
+              items={userInfo ? ['Logout', 'Orders', 'Settings'] : ['Login', 'Signup']}
               isOpen={activeDropdown === 'mobile-account'}
               onToggle={() => toggleDropdown('mobile-account')}
               position="left"
@@ -268,7 +269,7 @@ const Header = () => {
             <div className="relative" ref={accountRef}>
               <Dropdown
                 label={<UserIcon userInfo={userInfo} />}
-                items={userInfo ? ['Profile', 'Logout', 'Orders', 'Settings'] : ['Login', 'Signup']}
+                items={userInfo ? ['Logout', 'Orders', 'Settings'] : ['Login', 'Signup']}
                 isOpen={activeDropdown === 'account'}
                 onToggle={() => toggleDropdown('account')}
                 position="right"
@@ -276,7 +277,12 @@ const Header = () => {
             </div>
             <div className="relative" ref={helpRef}>
               <Dropdown
-                label="Help"
+                label={
+                  <span className="flex items-center space-x-1">
+                    <IoHelpCircleOutline className="text-lg" /> 
+                    <span>Help</span>
+                  </span>
+                }
                 items={['FAQ', 'Support', 'Contact Us']}
                 isOpen={activeDropdown === 'help'}
                 onToggle={() => toggleDropdown('help')}

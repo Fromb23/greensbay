@@ -20,6 +20,8 @@ import ProtectedRoute from './components/ProtectedRoutes';
 import Orders from './pages/Orders';
 import Chat from './components/Chat';
 import AdminSettings from './pages/AdminSettings';
+import UserSettings from './pages/UserSettings';
+import UserInbox from './pages/UserInbox';
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
           <Route element={<ProtectedRoute role="CUSTOMER" />}>
             <Route path="/checkout/summary" element={<Checkout />} />
             <Route path="/checkout/payment" element={<FinalPayment />} />
+            <Route path="/user/settings" element={<UserSettings />} />
+            <Route path="/inbox" element={<UserInbox />} />
           </Route>
         </Routes>
       </Router>

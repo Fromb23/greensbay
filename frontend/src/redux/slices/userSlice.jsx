@@ -56,6 +56,7 @@ const initialState = {
 			state.error = null;
 			localStorage.removeItem("userInfo");
 			localStorage.removeItem("token");
+			localStorage.removeItem("cartItems");
 		},
 	},
 });

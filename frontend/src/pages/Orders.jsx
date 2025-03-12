@@ -1,5 +1,7 @@
 import { current } from "@reduxjs/toolkit";
 import React, { useState, useEffect } from "react";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const OrderTracker = ({ orderStatus }) => {
   const statusTimeline = [
@@ -125,9 +127,8 @@ const Orders = ({ isAdmin, selectedCustomer }) => {
     return statusMap[status] || "Unknown Status";
   };
 
-  console.log("🟢 Orders Data:", orders, typeof orders);
-
   return (
+    <div><Header /> 
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">Your Orders</h2>
 
@@ -160,6 +161,8 @@ const Orders = ({ isAdmin, selectedCustomer }) => {
           ))}
         </div>
       )}
+    </div>
+    <Footer />
     </div>
   );
 };
