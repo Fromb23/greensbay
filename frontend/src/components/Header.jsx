@@ -4,16 +4,30 @@ import { Link, useNavigate } from 'react-router-dom';
 import CartBadge from './CartBadge';
 import { logout } from '../redux/slices/userSlice';
 
-const UserIcon = ({ userInfo }) => {
-  // Check if the screen is small (mobile)
-  const isMobile = window.innerWidth <= 768; // Adjust breakpoint if needed
+const UserIcon = ({ userInfo, type }) => {
+  const isMobile = window.innerWidth <= 768; // Check for mobile screen
 
   return (
     <div className="flex items-center space-x-2">
-      {userInfo ? (
-        // Logged in: Show Dropdown Arrow + Online Badge + "Hi, Username"
+      {type === "menu" && isMobile ? (
+        // Show Menu (Hamburger) Icon for Categories on Mobile
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6 text-gray-700"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 6h16M4 12h16m-7 6h7"
+          />
+        </svg>
+      ) : userInfo ? (
+        // Logged-in: Dropdown Arrow + Badge
         <span className="relative flex items-center">
-          {/* Dropdown Arrow */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 text-gray-700"
@@ -23,12 +37,10 @@ const UserIcon = ({ userInfo }) => {
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
-
-          {/* Online Badge */}
           <span className="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-500 ring-2 ring-white"></span>
         </span>
       ) : (
-        // Logged out: Show Account Icon (No text on mobile)
+        // Logged-out: Account Icon
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6 text-gray-700"
@@ -45,8 +57,7 @@ const UserIcon = ({ userInfo }) => {
         </svg>
       )}
 
-      {/* Show text only if not on mobile */}
-      {!isMobile && <span className="text-gray-700">{userInfo ? `Hi, ${userInfo.firstname}` : 'Account'}</span>}
+      {!isMobile && <span className="text-gray-700">{userInfo ? `Hi, ${userInfo.firstname}` : "Account"}</span>}
     </div>
   );
 };
@@ -65,7 +76,12 @@ const Dropdown = ({ label, items, isOpen, onToggle, position = "left" }) => {
       Settings: "/settings",
       Login: "/auth/login",
       Signup: "/auth/signup",
+      Electronics: "/electronics",
       Clothing: "/clothing",
+      "Home & Garden": "/home-garden",
+      FAQ: "/faq",
+      Support: "/support",
+      "Contact Us": "/contact",
     };
 
     if (item === "Logout") {
@@ -163,9 +179,15 @@ const NavigationLinks = ({ isMobile = false }) => {
 const Header = () => {
   const { userInfo } = useSelector((state) => state.user) || {};
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const mobileDropdownRef = useRef(null);
-  const lgdropdownRef = useRef(null);
-  const dropdownRef = useRef(null);
+
+  // Refs for dropdowns (Desktop)
+  const categoriesRef = useRef(null);
+  const accountRef = useRef(null);
+  const helpRef = useRef(null);
+
+  // Refs for dropdowns (Mobile)
+  const mobileCategoriesRef = useRef(null);
+  const mobileAccountRef = useRef(null);
 
   const toggleDropdown = (dropdown) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
@@ -173,8 +195,23 @@ const Header = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setActiveDropdown(null);
+      // Close desktop dropdowns if clicked outside
+      if (categoriesRef.current && !categoriesRef.current.contains(event.target)) {
+        setActiveDropdown((prev) => (prev === 'categories' ? null : prev));
+      }
+      if (accountRef.current && !accountRef.current.contains(event.target)) {
+        setActiveDropdown((prev) => (prev === 'account' ? null : prev));
+      }
+      if (helpRef.current && !helpRef.current.contains(event.target)) {
+        setActiveDropdown((prev) => (prev === 'help' ? null : prev));
+      }
+
+      // Close mobile dropdowns if clicked outside
+      if (mobileCategoriesRef.current && !mobileCategoriesRef.current.contains(event.target)) {
+        setActiveDropdown((prev) => (prev === 'mobile-categories' ? null : prev));
+      }
+      if (mobileAccountRef.current && !mobileAccountRef.current.contains(event.target)) {
+        setActiveDropdown((prev) => (prev === 'mobile-account' ? null : prev));
       }
     };
 
@@ -188,61 +225,64 @@ const Header = () => {
     <header className="bg-white shadow-md">
       {/* Top Section (Visible on all screens) */}
       <div className="container mx-auto flex items-center justify-between p-4">
-        {/* Categories Icon (Visible only on small screens) */}
-        <div className="md:hidden relative" ref={dropdownRef}>
+        {/* Categories Icon (Mobile Only) */}
+        <div className="md:hidden relative" ref={mobileCategoriesRef}>
           <Dropdown
-            label={<UserIcon />}
+            label={<UserIcon type="menu" />}
             items={['Electronics', 'Clothing', 'Home & Garden']}
-            isOpen={activeDropdown === 'categories'}
-            onToggle={() => toggleDropdown('categories')}
+            isOpen={activeDropdown === 'mobile-categories'}
+            onToggle={() => toggleDropdown('mobile-categories')}
           />
         </div>
 
-        {/* Logo (Visible on all screens) */}
-        <div className="cursor-pointer text-lg font-bold text-green-700"
+        {/* Logo */}
+        <div
+          className="cursor-pointer text-lg font-bold text-green-700"
           onClick={() => window.location.href = '/'}
         >
-          GreenBay</div>
+          GreenBay
+        </div>
 
-        {/* Cart and Account Icons (Visible only on small screens) */}
+        {/* Cart and Account Icons (Mobile Only) */}
         <div className="md:hidden flex items-center space-x-4">
           <div onClick={() => toggleDropdown('cart')}>
             <CartBadge />
           </div>
 
-          {/* Account Icon */}
-          <div className="md:hidden relative" ref={lgdropdownRef}>
-          <Dropdown
-            label={<UserIcon />}
-            items={userInfo ? ['Logout', 'Profile', 'Orders', 'Settings'] : ['Login', 'Signup'] || []}
-            isOpen={activeDropdown === 'account'}
-            onToggle={() => toggleDropdown('account')}
-            position="left"
-          />
+          {/* Mobile Account Dropdown */}
+          <div className="md:hidden relative" ref={mobileAccountRef}>
+            <Dropdown
+              label={<UserIcon />}
+              items={userInfo ? ['Logout', 'Profile', 'Orders', 'Settings'] : ['Login', 'Signup']}
+              isOpen={activeDropdown === 'mobile-account'}
+              onToggle={() => toggleDropdown('mobile-account')}
+              position="left"
+            />
           </div>
         </div>
 
-        {/* Search and Navigation (Visible only on medium and larger screens) */}
+        {/* Search and Navigation (Desktop Only) */}
         <div className="hidden md:flex items-center space-x-6">
           <SearchBar />
           <div className="relative z-50 flex items-center space-x-6">
-            <div className="relative" ref={mobileDropdownRef}>
-            <Dropdown
-              label={<UserIcon userInfo={userInfo} />}
-              items={userInfo ? ['Profile', 'Logout', 'Orders', 'Settings'] : ['Login', 'Signup']}
-              isOpen={activeDropdown === 'account'}
-              onToggle={() => toggleDropdown('account')}
-              position="right"
-            />
+            <div className="relative" ref={accountRef}>
+              <Dropdown
+                label={<UserIcon userInfo={userInfo} />}
+                items={userInfo ? ['Profile', 'Logout', 'Orders', 'Settings'] : ['Login', 'Signup']}
+                isOpen={activeDropdown === 'account'}
+                onToggle={() => toggleDropdown('account')}
+                position="right"
+              />
             </div>
-            <Dropdown
-              label="Help"
-              items={['FAQ', 'Support', 'Contact Us']}
-              isOpen={activeDropdown === 'help'}
-              onToggle={() => toggleDropdown('help')}
-              position="right"
-            />
-            {/* Replace Cart Icon with CartBadge */}
+            <div className="relative" ref={helpRef}>
+              <Dropdown
+                label="Help"
+                items={['FAQ', 'Support', 'Contact Us']}
+                isOpen={activeDropdown === 'help'}
+                onToggle={() => toggleDropdown('help')}
+                position="right"
+              />
+            </div>
             <div onClick={() => toggleDropdown('cart')}>
               <CartBadge />
             </div>
@@ -250,16 +290,16 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Search Bar (Visible only on small screens) */}
+      {/* Search Bar (Mobile Only) */}
       <div className="md:hidden p-4 bg-gray-100">
         <SearchBar isMobile />
       </div>
 
-      {/* Additional Header Section (e.g., Categories Links) */}
+      {/* Additional Header Section (Desktop Only) */}
       <div className="hidden md:block bg-gray-100 py-2">
         <div className="container mx-auto flex items-center">
-          {/* All Categories (Left-aligned) */}
-          <div className="mr-6">
+          {/* All Categories Dropdown (Desktop) */}
+          <div className="mr-6" ref={categoriesRef}>
             <Dropdown
               label="All Categories"
               items={['Electronics', 'Clothing', 'Home & Garden']}
