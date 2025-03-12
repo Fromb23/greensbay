@@ -72,9 +72,11 @@ model products {
   image          String?     @db.VarChar(500)
   units_left     Int         @default(0)
   stock          Int         @default(0)
+  status         Status      @default(ACTIVE)
   discount_price Decimal?    @db.Decimal(10, 2)
   actual_price   Decimal     @db.Decimal(10, 2)
   created_at     DateTime    @default(now()) @db.Timestamp(0)
+  updated_at     DateTime    @default(now()) @db.Timestamp(0)
   categoryId     Int?
   orderitem      orderitem[]
   category       categories? @relation(fields: [categoryId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_category")
@@ -122,7 +124,9 @@ enum admins_role {
 
 enum order_status {
   PENDING
+  WAITING_TO_BE_SHIPPED @map("WAITING TO BE SHIPPED")
   SHIPPED
+  OUT_FOR_DELIVERY @map("OUT FOR DELIVERY")
   DELIVERED
   CANCELLED
 }
@@ -130,4 +134,9 @@ enum order_status {
 enum users_role {
   ADMIN
   CUSTOMER
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
 }

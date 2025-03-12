@@ -64,6 +64,7 @@ export const getAddress = async (req: Request, res: Response): Promise<any> => {
 export const getDelivery = async (req: Request, res: Response): Promise<any> => {
   try {
     const { userId } = req.params;
+    console.log("user id in getdelivery", userId);
 
     const delivery = await prisma.deliveryaddress.findFirst({
       where: { userId: Number(userId) },
@@ -84,6 +85,7 @@ export const getDelivery = async (req: Request, res: Response): Promise<any> => 
 export const updateDelivery = async (req: Request, res: Response): Promise<any> => {
   try {
     const { userId, address, city, state, zipCode, phone } = req.body;
+    console.log("user id in update delivery", userId);
 
     const existingDelivery = await prisma.deliveryaddress.findFirst({
       where: { userId: Number(userId) },
