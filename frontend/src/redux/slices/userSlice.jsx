@@ -36,10 +36,11 @@ const initialState = {
 			state.loading = false;
 			state.user = action.payload.user;
 			console.log("userSlice...", action.payload.user);
-			localStorage.setItem("token", JSON.stringify({
-				token: action.payload.token
+			localStorage.setItem("accessToken", JSON.stringify({
+				token: action.payload.accessToken
 			}));
 			localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
+			console.log("State user:", state.user);
 			state.error = null;
 			setTimeout(() => {
 				window.location.reload();
@@ -55,7 +56,7 @@ const initialState = {
 			state.loading = false;
 			state.error = null;
 			localStorage.removeItem("userInfo");
-			localStorage.removeItem("token");
+			localStorage.removeItem("accessToken");
 			localStorage.removeItem("cartItems");
 		},
 	},

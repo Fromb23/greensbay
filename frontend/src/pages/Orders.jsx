@@ -78,7 +78,9 @@ const Orders = ({ isAdmin, selectedCustomer }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  let userInfo = localStorage.getItem("userInfo");
+  console.log("userinfo in orders", userInfo);
+  console.log("Retrieved userInfo:", typeof userInfo, userInfo);
   let userId = null;
 
   try {
@@ -131,12 +133,15 @@ const Orders = ({ isAdmin, selectedCustomer }) => {
   };
 
   useEffect(() => {
-    if (!userInfo || !userInfo.id) {
+    const storedUser = JSON.parse(localStorage.getItem("userInfo"));
+    console.log("Stored userInfo:", storedUser);
+  
+    if (!storedUser || !storedUser.id || !storedUser.role) {
+      console.log("Redirecting to login...");
       localStorage.setItem("redirectAfterLogin", location.pathname);
       navigate("/auth/login");
-      return;
     }
-}, [userInfo, navigate, location]);
+  }, [navigate, location]);
 
   return (
     <div><Header /> 

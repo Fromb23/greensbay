@@ -20,6 +20,7 @@ export const login = (loginForm) => async (dispatch) => {
   try {
     dispatch(USER_LOGIN_REQUEST());
     const response = await userAxios.post("/login", loginForm); 
+    console.log("response from userActions", response.data);
     dispatch(USER_LOGIN_SUCCESS(response.data));
   } catch (error) {
     const errorMessage = error.response?.data || "Server Error";
@@ -30,8 +31,8 @@ export const login = (loginForm) => async (dispatch) => {
 
 export const updateCustomerDetails = async (customerDetails) => {
 	  try {
-	const response = await userAxios.put("/update-customer", customerDetails);
-	return response.data;
+	    const response = await userAxios.put("/update-customer", customerDetails);
+	    return response.data;
   } catch (error) {
 	console.error("Error updating customer details:", error);
 	throw error.response?.data || "Server Error";
